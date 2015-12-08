@@ -3,6 +3,9 @@ var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
 
+app.set('views', './client/views');
+app.set('view engine', 'jade');
+
 app.start = function() {
   // start the web server
   return app.listen(function() {
