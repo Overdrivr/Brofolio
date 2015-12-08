@@ -18,7 +18,18 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "assets": {
+      "type": "hasMany",
+      "model": "Asset",
+      "foreignKey": ""
+    },
+    "tags": {
+      "type": "hasMany",
+      "model": "Tag",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }
