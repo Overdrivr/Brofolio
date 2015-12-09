@@ -1,0 +1,15 @@
+extends layout-admin
+
+include ./mixins.jade
+
+block content
+  .container
+    .row
+      h3 Images
+      form(action="#")
+        .file-field.input-field
+          .btn
+            span Selectionner
+            input(type="file" multiple)
+          .file-path-wrapper
+            input.file-path.validate(type="text" placeholder="Une ou plusieurs")

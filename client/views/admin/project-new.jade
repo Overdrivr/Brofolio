@@ -1,0 +1,30 @@
+extends layout-admin
+
+include ./mixins.jade
+
+block content
+  .container
+    .row
+      h3 Nouveau projet
+      .col.s12
+        .row
+          .input-field.col.l6
+            i.material-icons.prefix label
+            input.validate#projecttitle(placeholder="Titre" type="text")
+        //
+          .row
+            .col.l6
+              label(for="startdate") Debut
+              input.datepicker#startdate(type="date")
+            .col.l6
+              label(for="enddate") Fin
+              input.datepicker#enddate(type="date")
+        .row
+          .input-field.col.s12
+            i.material-icons.prefix description
+            textarea.materialize-textarea#icon_prefix2
+            label(for="icon_prefix2") Description
+        .row
+          .btn
+            span Creer
+             
