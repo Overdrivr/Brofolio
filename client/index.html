@@ -1,0 +1,29 @@
+<!doctype html>
+<html ng-app=brofolioApp>
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='/css/materialize.css' rel='stylesheet'>
+    <link href='/css/style.css' rel='stylesheet'>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/js/libs/materialize.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container" ng-controller="GalleryController as gallery">
+      <h2>Projets</h2>
+      <div style="position: relative;">
+        <div class="row">
+          <div class="col m6" ng-repeat="asset in gallery.assets">
+            <div class="card">
+              <div class="card-image">
+                <img ng-src={{asset.image}}>
+                <span class="card-title">{{asset.title}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>
