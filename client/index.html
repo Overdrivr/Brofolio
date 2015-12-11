@@ -11,18 +11,28 @@
   </head>
 
   <body>
+    <nav>
+
+    </nav>
     <div class="container" ng-controller="GalleryController as gallery">
       <h2>Projets</h2>
       <div style="position: relative;">
         <div class="row">
-          <div class="col m6" ng-repeat="asset in gallery.assets">
-            <div class="card">
-              <div class="card-image">
-                <img ng-src={{asset.image}}>
-                <span class="card-title">{{asset.title}}</span>
-              </div>
-            </div>
+
+        <!-- Create two column image display -->
+        <div ng-repeat="asset in gallery.assets">
+          <!-- Information display -->
+          <div class="col m6" ng-if="$index == 3">
+            <h3>{{asset.title}}</h3>
+            <p>{{asset.description}}</p>
           </div>
+          <!-- Image display -->
+          <div class="col m6" ng-click="clicked=0" ng-init='clicked=1' style="padding: 0.05em;">
+            <img class="responsive-img" ng-src={{asset.image}} style="display: block;">
+          </div>
+        </div>
+
+
         </div>
       </div>
   </body>
