@@ -1,5 +1,5 @@
 (function(){
-  var app = angular.module("brofolioApp",["navBar"]);
+  var app = angular.module("brofolioApp",["ngMaterial","navBar"]);
 
   app.controller("GalleryController",function(){
     this.assets = assets;
