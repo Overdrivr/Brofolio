@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc7/angular-material.min.css">
+    <link rel='stylesheet' href='/assets/css/style.css'>
+
+  </head>
+
+  <body ng-app="brofolioApp" layout="column">
+
+    <div layout="row" layout-align="center center" flex>
+      <form>
+        <md-input-container flex>
+          <label>Nom</label>
+          <input type="text"/>
+        </md-input-container>
+
+        <md-input-container flex>
+          <label>Mot de passe</label>
+          <input type="password"/>
+        </md-input-container>
+
+        <md-button class="md-fab md-primary" aria-label="Connect">
+          <md-icon class="material-icons">vpn_key</md-icon>
+        </md-button>
+      </form>
+    </div>
+
+      <!-- Angular Material requires Angular.js Libraries -->
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+
+      <!-- Angular Material Library -->
+      <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc7/angular-material.min.js"></script>
+
+      <!-- My angular application -->
+      <script type="text/javascript" src="/app/shared/navbar.js"></script>
+      <script type="text/javascript" src="/app/app.js"></script>
+
+  </body>
+</html>
