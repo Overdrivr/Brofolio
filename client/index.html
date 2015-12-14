@@ -1,36 +1,24 @@
 <!doctype html>
-<html ng-app="brofolioApp">
+<html>
   <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href='/assets/css/materialize.css' rel='stylesheet'>
-    <link href='/assets/css/style.css' rel='stylesheet'>
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script type="text/javascript" src="/app/shared/navbar.js"></script>
-    <script type="text/javascript" src="/app/app.js"></script>
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="/assets/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc7/angular-material.min.css">
+    <link rel='stylesheet' href='/assets/css/style.css'>
   </head>
 
-  <body>
+  <body ng-app="brofolioApp">
+    <ng-view style="height: inherit;"></ng-view>
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
 
-    <navigation-bar></navigation-bar>
-    <div class="container" ng-controller="GalleryController as gallery">
-      <div style="position: relative;">
-        <div class="row">
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc7/angular-material.min.js"></script>
 
-        <!-- Create two column image display -->
-        <div ng-repeat="asset in gallery.assets">
-
-          <!-- Image display -->
-          <div class="col m6" style="padding: 0.05em;">
-            <img class="responsive-img" ng-src={{asset.images.square}} style="display: block;">
-          </div>
-        </div>
-
-
-        </div>
-      </div>
+    <!-- My angular application -->
+    <script type="text/javascript" src="/app/app.js"></script>
   </body>
 </html>
