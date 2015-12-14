@@ -5,12 +5,18 @@
   app.config(function($routeProvider){
     $routeProvider.when("/",{
       templateUrl: "/app/authentication/form.html"
-    });
+    })
+    .when("/login",{
+      templateUrl: "/app/authentication/form.html"
+    })
+    .when("/edit",{
+      templateUrl: "/app/authentication/edit.html",
+      controller: function(){
+        this.projectList = ["A","B","C"];
+      },
+      controllerAs: "projects"
+    })
   });
-
-  app.run(['$route', function($route)  {
-    $route.reload();
-  }]);
 
   app.config(function($mdThemingProvider) {
     $mdThemingProvider.theme("default")
