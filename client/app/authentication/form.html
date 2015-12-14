@@ -1,6 +1,6 @@
 <div style="height: inherit;" layout="column" ng-cloak>
   <div layout="row" layout-align="center center" flex>
-    <form name="loginForm" ng-submit="login(credentials)" novalidate>
+    <form name="loginForm" novalidate>
       <md-input-container flex>
         <label class="ng-cloak">Nom</label>
         <input type="text" id="user" ng-model="credentials.user"/>
@@ -11,7 +11,7 @@
         <input type="password" id="password" ng-model="credentials.password"/>
       </md-input-container>
 
-      <md-button class="md-fab md-primary" aria-label="Connect" type="submit">
+      <md-button class="md-fab md-primary" aria-label="Connect">
         <md-icon class="material-icons">vpn_key</md-icon>
       </md-button>
     </form>
