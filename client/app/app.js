@@ -1,5 +1,16 @@
 (function(){
-  var app = angular.module("brofolioApp",["ngMaterial","navBar"]);
+  var app = angular.module("brofolioApp",["ngMaterial","ngRoute"]);
+
+
+  app.config(function($routeProvider){
+    $routeProvider.when("/",{
+      templateUrl: "/app/authentication/form.html"
+    });
+  });
+
+  app.run(['$route', function($route)  {
+    $route.reload();
+  }]);
 
   app.config(function($mdThemingProvider) {
     $mdThemingProvider.theme("default")
@@ -10,6 +21,8 @@
   app.controller("GalleryController",function(){
     this.assets = assets;
   });
+
+
 })();
 
 var assets = [
