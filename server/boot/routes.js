@@ -12,8 +12,6 @@ module.exports = function(app) {
   };
   router.get('/', function(req, res) {
     res.sendFile("index.html",options);
-  }).get('/login', function(req, res){
-    res.sendFile("login.html",options);
   });
 
   app.use(router);
