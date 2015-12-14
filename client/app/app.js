@@ -1,6 +1,12 @@
 (function(){
   var app = angular.module("brofolioApp",["ngMaterial","navBar"]);
 
+  app.config(function($mdThemingProvider) {
+    $mdThemingProvider.theme("default")
+    .primaryPalette("cyan")
+    .accentPalette("orange");
+  });
+
   app.controller("GalleryController",function(){
     this.assets = assets;
   });
