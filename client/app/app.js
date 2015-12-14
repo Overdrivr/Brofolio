@@ -12,11 +12,12 @@
     .when("/edit",{
       templateUrl: "/app/authentication/edit.html",
       controller: function(){
-        this.projectList = ["A","B","C"];
+        this.projectList = ["Gas can","Abandonned cabin","Flamethrower"];
       },
       controllerAs: "projects"
     })
   });
+
 
   app.config(function($mdThemingProvider) {
     $mdThemingProvider.theme("default")
