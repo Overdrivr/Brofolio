@@ -16,10 +16,8 @@
     })
     .when("/projects/edit",{
       templateUrl: "/app/authentication/project-edit.html",
-      controller: function(){
-        this.assets = ["Image 1","Image 2","Image 3"];
-      },
-      controllerAs: "projectCtrl"
+      controller: "projectListController",
+      controllerAs: "projects"
     })
   });
 
@@ -43,15 +41,23 @@
       projects.list.push({title: projectData.title, description: projectData.description, assets: projectData.assets})
     };
 
-    return projects;
-  });
-
-  app.controller("projectListController",["projects",function(projects){
     projects.add({title: "Gas can", description: "A can of gas.", assets: ["a.jpg","b.jpg"]});
     projects.add({title: "Abandonned cabin", description: "A cabin in the woods.", assets: ["a.jpg","b.jpg"]});
     projects.add({title: "Flamethrower", description: "A cool instant barbecue flame throwing machine.", assets: ["a.jpg","b.jpg"]});
 
-    this.projectList = projects.list;
+    return projects;
+  });
+
+  app.controller("projectListController",["projects",function(projects){
+    var self = this;
+    self.projectList = projects.list;
+    self.newProject = {};
+
+    this.addProject = function(projectData){
+      console.log("data",projectData);
+      projects.add(projectData);
+      self.newProject = {};
+    };
   }]);
 
 
