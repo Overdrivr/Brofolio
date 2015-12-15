@@ -11,9 +11,7 @@
     })
     .when("/projects",{
       templateUrl: "/app/authentication/project-list.html",
-      controller: function(){
-        this.projectList = ["Gas can","Abandonned cabin","Flamethrower"];
-      },
+      controller: "projectListController",
       controllerAs: "projects"
     })
     .when("/projects/edit",{
@@ -35,6 +33,20 @@
   app.controller("GalleryController",function(){
     this.assets = assets;
   });
+
+  app.factory("projects",function(){
+    var projects = {};
+
+    projects.list = [];
+
+    projects.add = function(projectData){
+      projects.list.push({title: projectData.title, description: projectData.description, assets: projectData.assets})
+    };
+
+    return projects;
+  });
+
+
 
 
 })();
