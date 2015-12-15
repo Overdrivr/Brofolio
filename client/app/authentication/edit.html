@@ -1,10 +1,29 @@
+<div layout="row" layout-wrap>
 
+    <div flex="20">
+      <h3> Wot</h3>
+    </div>
+    <div flex="60">
+      <md-content>
+        <md-list>
+          <md-subheader class="md-no-sticky">Projects</md-subheader>
+          <md-list-item ng-click="" ng-repeat="project in projects.projectList">
 
-<div layout="column" layout-fill>
+              <p>{{ project }}</p>
+              <md-icon class="material-icons">edit</md-icon>
+
+          </md-list-item>
+        </md-list>
+      </md-content>
+    </div>
+    <div flex hide-sm hide-xs>
+    </div>
+
+</div>
+  <!--
   <md-toolbar>
    <div class="md-toolbar-tools">
      <span>Admin Area</span>
-     <!-- fill up the space between left and right area -->
      <span flex></span>
      <md-button>
        Retourner au site
@@ -12,15 +31,5 @@
    </div>
   </md-toolbar>
 
-  <md-content>
-    <md-list>
-      <md-subheader class="md-no-sticky">Projects</md-subheader>
-      <md-list-item ng-click="" ng-repeat="project in projects.projectList">
 
-          <p>{{ project }}</p>
-          <md-icon class="material-icons">edit</md-icon>
-
-      </md-list-item>
-    </md-list>
-  </md-content>
-</div>
+-->
