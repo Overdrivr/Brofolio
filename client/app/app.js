@@ -19,9 +19,9 @@
     .when("/projects/edit",{
       templateUrl: "/app/authentication/project-edit.html",
       controller: function(){
-        this.projectList = ["Gas can","Abandonned cabin","Flamethrower"];
+        this.assets = ["Image 1","Image 2","Image 3"];
       },
-      controllerAs: "projects"
+      controllerAs: "projectCtrl"
     })
   });
 
