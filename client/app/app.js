@@ -7,18 +7,24 @@
   $urlRouterProvider.otherwise("/");
 
   $stateProvider
-    .state('adminHome', {
+    .state('login', {
       url: "/",
       templateUrl: "/app/authentication/form.html"
     })
-    .state('projectList', {
+    .state('admin', {
       url: "/projects",
       templateUrl: "/app/authentication/project-list.html",
       controller: "projectListController",
       controllerAs: "projects"
     })
-    .state('projectEdit', {
-      url: "/projects/edit",
+    .state('create', {
+      url: "/create",
+      templateUrl: "/app/authentication/project-edit.html",
+      controller: "projectListController",
+      controllerAs: "projects"
+    })
+    .state('edit', {
+      url: "/edit/:id",
       templateUrl: "/app/authentication/project-edit.html",
       controller: "projectListController",
       controllerAs: "projects"
@@ -58,10 +64,9 @@
     self.newProject = {};
 
     this.addProject = function(projectData){
-      console.log("data",projectData);
       projects.add(projectData);
       self.newProject = {};
-      $state.go("projectList");
+      $state.go("admin");
     };
   }]);
 
