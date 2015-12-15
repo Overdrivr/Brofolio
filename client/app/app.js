@@ -9,8 +9,15 @@
     .when("/login",{
       templateUrl: "/app/authentication/form.html"
     })
-    .when("/edit",{
-      templateUrl: "/app/authentication/edit.html",
+    .when("/projects",{
+      templateUrl: "/app/authentication/project-list.html",
+      controller: function(){
+        this.projectList = ["Gas can","Abandonned cabin","Flamethrower"];
+      },
+      controllerAs: "projects"
+    })
+    .when("/projects/edit",{
+      templateUrl: "/app/authentication/project-edit.html",
       controller: function(){
         this.projectList = ["Gas can","Abandonned cabin","Flamethrower"];
       },
