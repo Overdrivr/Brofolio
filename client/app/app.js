@@ -1,24 +1,28 @@
 (function(){
-  var app = angular.module("brofolioApp",["ngMaterial","ngRoute"]);
+  var app = angular.module("brofolioApp",["ngMaterial","ui.router"]);
 
 
-  app.config(function($routeProvider){
-    $routeProvider.when("/",{
+  app.config(function($stateProvider, $urlRouterProvider){
+
+  $urlRouterProvider.otherwise("/");
+
+  $stateProvider
+    .state('adminHome', {
+      url: "/",
       templateUrl: "/app/authentication/form.html"
     })
-    .when("/login",{
-      templateUrl: "/app/authentication/form.html"
-    })
-    .when("/projects",{
+    .state('projectList', {
+      url: "/projects",
       templateUrl: "/app/authentication/project-list.html",
       controller: "projectListController",
       controllerAs: "projects"
     })
-    .when("/projects/edit",{
+    .state('projectEdit', {
+      url: "/projects/edit",
       templateUrl: "/app/authentication/project-edit.html",
       controller: "projectListController",
       controllerAs: "projects"
-    })
+    });
   });
 
 
@@ -48,7 +52,7 @@
     return projects;
   });
 
-  app.controller("projectListController",["projects",function(projects){
+  app.controller("projectListController",["projects","$state",function(projects,$state){
     var self = this;
     self.projectList = projects.list;
     self.newProject = {};
@@ -57,6 +61,7 @@
       console.log("data",projectData);
       projects.add(projectData);
       self.newProject = {};
+      $state.go("projectList");
     };
   }]);
 
