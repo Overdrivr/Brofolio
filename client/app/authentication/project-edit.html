@@ -1,22 +1,27 @@
-<div layout="row" layout-wrap>
+<div layout="row" layout-padding>
+
   <div flex="20"></div>
 
   <div flex="60">
-    <form name="projectForm">
-      <div layout-gt-xs="row">
-        <md-input-container>
-          <label> Project Title </label>
-          <input/>
-        </md-input-container>
-      </div>
+    <md-content layout-padding >
+      <div>
+        <form name="projectForm">
+          <md-input-container>
+            <label> Project Title </label>
+            <input/>
+          </md-input-container>
 
-      <div layout-gt-sm="row">
-        <md-input-container>
-          <label>Description</label>
-          <textarea></textarea>
-        </md-input-container>
+          <md-input-container class=md-block>
+            <label>Description</label>
+            <textarea></textarea>
+          </md-input-container>
+
+          <div layout="row" layout-align="end start">
+            <md-button layoutlayout-align="">Save</md-button>
+          </div>
+        </form>
       </div>
-    </form>
+    </md-content>
   </div>
 
   <div flex hide-sm hide-xs></div>
