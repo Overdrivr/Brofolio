@@ -1,29 +1,26 @@
 
- <md-fab-toolbar md-open="true" count="2"
-                 md-direction="left">
-   <md-toolbar>
-     <md-fab-actions class="md-toolbar-tools">
-       <md-button aria-label="comment" class="md-icon-button">
-         <md-icon class="material-icons">edit</md-icon>
-       </md-button>
-       <md-button aria-label="label" class="md-icon-button">
-         <md-icon class="material-icons">edit</md-icon>
-       </md-button>
-       <md-button aria-label="photo" class="md-icon-button">
-         <md-icon class="material-icons">edit</md-icon>
-       </md-button>
-     </md-fab-actions>
-   </md-toolbar>
- </md-fab-toolbar>
 
-<md-content flex layout-padding>
-  <md-list>
-    <md-subheader class="md-no-sticky">Projects</md-subheader>
-    <md-list-item ng-click="" ng-repeat="project in projects.projectList">
+<div layout="column" layout-fill>
+  <md-toolbar>
+   <div class="md-toolbar-tools">
+     <span>Admin Area</span>
+     <!-- fill up the space between left and right area -->
+     <span flex></span>
+     <md-button>
+       Retourner au site
+     </md-button>
+   </div>
+  </md-toolbar>
 
-        <p>{{ project }}</p>
-        <md-icon class="material-icons">edit</md-icon>
+  <md-content>
+    <md-list>
+      <md-subheader class="md-no-sticky">Projects</md-subheader>
+      <md-list-item ng-click="" ng-repeat="project in projects.projectList">
 
-    </md-list-item>
-  </md-list>
-</md-content>
+          <p>{{ project }}</p>
+          <md-icon class="material-icons">edit</md-icon>
+
+      </md-list-item>
+    </md-list>
+  </md-content>
+</div>
