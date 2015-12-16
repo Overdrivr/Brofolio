@@ -1,0 +1,50 @@
+<div layout="row" layout-padding>
+
+  <div flex="20"></div>
+
+  <div flex="60">
+    <md-content layout-padding >
+      <div>
+        <form name="projectForm">
+          <h3>Description</h3>
+          <md-input-container>
+            <label> Project Title </label>
+            <input ng-model="projects.data.title"/>
+          </md-input-container>
+
+          <md-input-container class=md-block>
+            <label>Description</label>
+            <textarea ng-model="projects.data.description"></textarea>
+          </md-input-container>
+
+          <!-- Assets title and + FAB -->
+          <div layout="row" layout-align="space-between start">
+            <h3>Assets</h3>
+            <md-button class="md-fab" aria-label="Add an asset">
+              <md-icon class="material-icon">add</md-icon>
+            </md-button>
+          </div>
+
+          <!-- Display list of existing assets -->
+          <!-- TODO: Make icon a button to provide delete option -->
+          <md-list>
+            <md-list-item class="md-clickable" ng-repeat="asset in projects.data.assets">
+              <button class="md-button md-no-style" type="button">
+                <div class="md-list-item-inner">
+                  <p>{{ asset }}</p>
+                  <md-icon class="material-icons">delete</md-icon>
+                </div>
+              </button>
+            </md-list-item>
+          </md-list>
+          <!-- Save button -->
+          <div layout="row" layout-align="end start" type="submit" ng-click="projects.save(projects.data)">
+            <md-button class="md-raised md-primary">Save</md-button>
+          </div>
+        </form>
+      </div>
+    </md-content>
+  </div>
+
+  <div flex hide-sm hide-xs></div>
+</div>
