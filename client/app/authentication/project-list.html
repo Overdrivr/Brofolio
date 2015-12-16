@@ -17,7 +17,7 @@
       <md-content>
         <md-list>
           <md-list-item class="md-clickable" ng-repeat="project in projects.projectList">
-            <button class="md-button md-no-style" type="button">
+            <button class="md-button md-no-style" type="button" ui-sref="edit({id: project.id})">
               <div class="md-list-item-inner">
                 <p>{{ project.title }}</p>
                 <md-icon class="material-icons">edit</md-icon>
