@@ -67,6 +67,17 @@
         }
       }
       $log.warn('id ', id,' not found for edition.');
+      return;
+    };
+
+    projects.get = function(id){
+      for(var i = 0 ; i < projects.list.length ; i++){
+        if(projects.list[i].id == id){
+          return projects.list[i];
+        }
+      }
+      $log.warn('id ', id,' not found for get.');
+      return;
     };
 
     projects.add({title: "Gas can", description: "A can of gas.", assets: ["a.jpg","b.jpg"]});
@@ -93,12 +104,18 @@
     self.projectList = projects.list;
 
     // Find project in list by id
+    var existingData = projects.get($stateParams.id);
 
-    self.data = {};
-    self.data.title = "test";
+    if(existingData){
+      self.data = existingData;
+      self.id = $stateParams.id
+    }
+    else {
+      $state.go("admin");
+    }
 
     this.save = function(data){
-      projects.edit(0,data);
+      projects.edit(self.id,self.data);
       self.data = {};
       $state.go("admin");
     };
