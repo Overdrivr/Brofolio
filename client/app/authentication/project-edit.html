@@ -9,12 +9,12 @@
           <h3>Description</h3>
           <md-input-container>
             <label> Project Title </label>
-            <input ng-model="projects.newProject.title"/>
+            <input ng-model="projects.data.title"/>
           </md-input-container>
 
           <md-input-container class=md-block>
             <label>Description</label>
-            <textarea ng-model="projects.newProject.description"></textarea>
+            <textarea ng-model="projects.data.description"></textarea>
           </md-input-container>
 
           <!-- Assets title and + FAB -->
@@ -28,7 +28,7 @@
           <!-- Display list of existing assets -->
           <!-- TODO: Make icon a button to provide delete option -->
           <md-list>
-            <md-list-item class="md-clickable" ng-repeat="asset in projectCtrl.assets">
+            <md-list-item class="md-clickable" ng-repeat="asset in projects.data.assets">
               <button class="md-button md-no-style" type="button">
                 <div class="md-list-item-inner">
                   <p>{{ asset }}</p>
@@ -38,7 +38,7 @@
             </md-list-item>
           </md-list>
           <!-- Save button -->
-          <div layout="row" layout-align="end start" type="submit" ng-click="projects.addProject(projects.newProject)">
+          <div layout="row" layout-align="end start" type="submit" ng-click="projects.save(projects.data)">
             <md-button class="md-raised md-primary">Save</md-button>
           </div>
         </form>
