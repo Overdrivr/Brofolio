@@ -6,23 +6,23 @@ angular.module("brofolioApp",["ngMaterial","ui.router"])
     $stateProvider
       .state('login', {
         url: "/",
-        templateUrl: "/app/authentication/form.html"
+        templateUrl: "/app/templates/login.html"
       })
       .state('admin', {
         url: "/projects",
-        templateUrl: "/app/authentication/project-list.html",
+        templateUrl: "/app/templates/project-list.html",
         controller: "projectCreationController",
         controllerAs: "projects"
       })
       .state('create', {
         url: "/create",
-        templateUrl: "/app/authentication/project-edit.html",
+        templateUrl: "/app/templates/project-create.html",
         controller: "projectCreationController",
         controllerAs: "projects"
       })
       .state('edit', {
         url: "/edit/:id",
-        templateUrl: "/app/authentication/project-edit.html",
+        templateUrl: "/app/templates/project-edit.html",
         controller: "projectEditionController",
         controllerAs: "projects"
       });
