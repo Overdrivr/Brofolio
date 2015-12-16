@@ -1,4 +1,5 @@
-angular.module("brofolioApp").controller("projectEditionController",["projects","$state","$stateParams",function(projects,$state,$stateParams){
+angular.module("brofolioApp")
+.controller("projectEditionController",["projects","$state","$stateParams","$mdDialog",function(projects,$state,$stateParams,$mdDialog){
   var self = this;
   self.projectList = projects.list;
 
@@ -18,4 +19,21 @@ angular.module("brofolioApp").controller("projectEditionController",["projects",
     self.data = {};
     $state.go("admin");
   };
-}]);
+
+  this.removeAsset = function(ev){
+    // Ask for confirmation
+    var confirm = $mdDialog.confirm()
+          .title('Asset')
+          .textContent('Do you want to remove the asset from the project ?')
+          .ariaLabel('Delete the asset or not ?')
+          .targetEvent(ev)
+          .ok('Yes')
+          .cancel('Cancel');
+
+    $mdDialog.show(confirm).then(function() {
+      console.log("Continue with the remove");
+    }, function() {
+      console.log("Cancel the remove");
+    });
+  };
+}])
