@@ -26,15 +26,13 @@
           </div>
 
           <!-- Display list of existing assets -->
-          <!-- TODO: Make icon a button to provide delete option -->
           <md-list>
-            <md-list-item class="md-clickable" ng-repeat="asset in projects.data.assets">
-              <button class="md-button md-no-style" type="button">
-                <div class="md-list-item-inner">
-                  <p>{{ asset }}</p>
-                  <md-icon class="material-icons">delete</md-icon>
-                </div>
-              </button>
+            <!-- TODO: ng-click should open asset full screen -->
+            <md-list-item class="secondary-button-padding" ng-repeat="asset in projects.data.assets" ng-click="">
+              <p>{{ asset }}</p>
+              <md-button class="md-icon-button md-secondary" ng-click="projects.removeAsset()" aria-label="More">
+                <md-icon class="material-icons">delete</md-icon>
+              </md-button>
             </md-list-item>
           </md-list>
           <!-- Save button -->
