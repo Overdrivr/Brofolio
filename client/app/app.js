@@ -1,24 +1,34 @@
 (function(){
-  var app = angular.module("brofolioApp",["ngMaterial","ngRoute"]);
+  var app = angular.module("brofolioApp",["ngMaterial","ui.router"]);
 
 
-  app.config(function($routeProvider){
-    $routeProvider.when("/",{
+  app.config(function($stateProvider, $urlRouterProvider){
+
+  $urlRouterProvider.otherwise("/");
+
+  $stateProvider
+    .state('login', {
+      url: "/",
       templateUrl: "/app/authentication/form.html"
     })
-    .when("/login",{
-      templateUrl: "/app/authentication/form.html"
-    })
-    .when("/projects",{
+    .state('admin', {
+      url: "/projects",
       templateUrl: "/app/authentication/project-list.html",
-      controller: "projectListController",
+      controller: "projectCreationController",
       controllerAs: "projects"
     })
-    .when("/projects/edit",{
+    .state('create', {
+      url: "/create",
       templateUrl: "/app/authentication/project-edit.html",
-      controller: "projectListController",
+      controller: "projectCreationController",
       controllerAs: "projects"
     })
+    .state('edit', {
+      url: "/edit/:id",
+      templateUrl: "/app/authentication/project-edit.html",
+      controller: "projectEditionController",
+      controllerAs: "projects"
+    });
   });
 
 
@@ -32,13 +42,42 @@
     this.assets = assets;
   });
 
-  app.factory("projects",function(){
+  app.factory("projects",["$log",function($log){
     var projects = {};
-
+    projects.projectId = 0;
     projects.list = [];
 
     projects.add = function(projectData){
-      projects.list.push({title: projectData.title, description: projectData.description, assets: projectData.assets})
+      projects.list.push({
+        id: projects.projectId,
+        title: projectData.title,
+        description: projectData.description,
+        assets: projectData.assets});
+      projects.projectId++;
+    };
+
+    projects.edit = function(id,projectData){
+      // TODO : Check inputs
+      for(var i = 0 ; i < projects.list.length ; i++){
+        if(projects.list[i].id == id){
+          projects.list[i].title = projectData.title;
+          projects.list[i].description = projectData.description;
+          projects.list[i].assets = projectData.assets;
+          return;
+        }
+      }
+      $log.warn('id ', id,' not found for edition.');
+      return;
+    };
+
+    projects.get = function(id){
+      for(var i = 0 ; i < projects.list.length ; i++){
+        if(projects.list[i].id == id){
+          return projects.list[i];
+        }
+      }
+      $log.warn('id ', id,' not found for get.');
+      return;
     };
 
     projects.add({title: "Gas can", description: "A can of gas.", assets: ["a.jpg","b.jpg"]});
@@ -46,17 +85,39 @@
     projects.add({title: "Flamethrower", description: "A cool instant barbecue flame throwing machine.", assets: ["a.jpg","b.jpg"]});
 
     return projects;
-  });
+  }]);
 
-  app.controller("projectListController",["projects",function(projects){
+  app.controller("projectCreationController",["projects","$state","$log",function(projects,$state,$log){
     var self = this;
     self.projectList = projects.list;
-    self.newProject = {};
+    self.data = {};
 
-    this.addProject = function(projectData){
-      console.log("data",projectData);
-      projects.add(projectData);
-      self.newProject = {};
+    this.save = function(data){
+      projects.add(data);
+      self.data = {};
+      $state.go("admin");
+    };
+  }]);
+
+  app.controller("projectEditionController",["projects","$state","$stateParams",function(projects,$state,$stateParams){
+    var self = this;
+    self.projectList = projects.list;
+
+    // Find project in list by id
+    var existingData = projects.get($stateParams.id);
+
+    if(existingData){
+      self.data = existingData;
+      self.id = $stateParams.id
+    }
+    else {
+      $state.go("admin");
+    }
+
+    this.save = function(data){
+      projects.edit(self.id,self.data);
+      self.data = {};
+      $state.go("admin");
     };
   }]);
 

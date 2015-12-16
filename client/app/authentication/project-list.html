@@ -8,7 +8,7 @@
       <!-- Top title and Field Action Button to create new project-->
       <div layout="row" layout-align="space-between center">
         <h3>Projects</h3>
-        <md-button class="md-fab" aria-label="Create new project">
+        <md-button class="md-fab" ui-sref="create" aria-label="Create new project">
           <md-icon class="material-icons">add</md-icon>
         </md-button>
       </div>
@@ -17,7 +17,7 @@
       <md-content>
         <md-list>
           <md-list-item class="md-clickable" ng-repeat="project in projects.projectList">
-            <button class="md-button md-no-style" type="button">
+            <button class="md-button md-no-style" type="button" ui-sref="edit({id: project.id})">
               <div class="md-list-item-inner">
                 <p>{{ project.title }}</p>
                 <md-icon class="material-icons">edit</md-icon>
