@@ -31,9 +31,9 @@
           <!-- Display list of existing assets -->
           <md-list>
             <!-- TODO: ng-click should open asset full screen -->
-            <md-list-item class="secondary-button-padding" ng-repeat="asset in projects.data.assets" ng-click="">
+            <md-list-item class="secondary-button-padding" ng-repeat="asset in projects.data.assets track by $index" ng-click="">
               <p>{{ asset }}</p>
-              <md-button class="md-icon-button md-secondary" ng-click="projects.removeAsset()" aria-label="More">
+              <md-button class="md-icon-button md-secondary" ng-click="projects.removeAsset(asset)" aria-label="More">
                 <md-icon class="material-icons">delete</md-icon>
               </md-button>
             </md-list-item>
