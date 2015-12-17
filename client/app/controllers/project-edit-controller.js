@@ -1,5 +1,7 @@
 angular.module("brofolioApp")
-.controller("projectEditionController",["projects","$state","$stateParams","$mdDialog",function(projects,$state,$stateParams,$mdDialog){
+.controller("projectEditionController",
+         ["projects","$state","$stateParams","$mdDialog","Upload",
+  function(projects,  $state,  $stateParams,  $mdDialog, Upload){
   var self = this;
   self.projectList = projects.list;
 
@@ -35,5 +37,22 @@ angular.module("brofolioApp")
     }, function() {
       console.log("Cancel the remove");
     });
+  };
+
+
+  // upload on file select or drop
+  this.uploadAsset = function (file) {
+    console.log("file",file);
+     Upload.upload({
+         url: 'upload/url',
+         data: {file: file, 'username': 'bouffon'}
+     }).then(function (resp) {
+         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+     }, function (resp) {
+         console.log('Error status: ' + resp.status);
+     }, function (evt) {
+         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+         console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+     });
   };
 }])
