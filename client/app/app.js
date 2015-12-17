@@ -5,7 +5,7 @@ angular.module("brofolioApp",["ngMaterial","ui.router","lodash","ngFileUpload"])
 
     $stateProvider
       .state('login', {
-        url: "/",
+        url: "/login",
         templateUrl: "/app/templates/login.html"
       })
       .state('admin', {
@@ -25,6 +25,12 @@ angular.module("brofolioApp",["ngMaterial","ui.router","lodash","ngFileUpload"])
         templateUrl: "/app/templates/project-edit.html",
         controller: "projectEditionController",
         controllerAs: "projects"
+      })
+      .state('gallery', {
+        url:"/",
+        templateUrl: "/app/templates/gallery.html",
+        controller: "GalleryController",
+        controllerAs: "galleryCtrl"
       });
     })
 .config(function($mdThemingProvider) {
