@@ -1,4 +1,4 @@
-angular.module("brofolioApp",["ngMaterial","ui.router"])
+angular.module("brofolioApp",["ngMaterial","ui.router","lodash","ngFileUpload"])
   .config(function($stateProvider, $urlRouterProvider){
 
     $urlRouterProvider.otherwise("/");

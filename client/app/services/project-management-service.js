@@ -1,39 +1,81 @@
-angular.module("brofolioApp").factory("projects",["$log",function($log){
+angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
   var projects = {};
   projects.projectId = 0;
   projects.list = [];
 
-  projects.add = function(projectData){
+  projects.add = function(data){
     projects.list.push({
       id: projects.projectId,
-      title: projectData.title,
-      description: projectData.description,
-      assets: projectData.assets});
+      title: data.title,
+      description: data.description,
+      assets: []
+    });
     projects.projectId++;
   };
 
-  projects.edit = function(id,projectData){
-    // TODO : Check inputs
-    for(var i = 0 ; i < projects.list.length ; i++){
-      if(projects.list[i].id == id){
-        projects.list[i].title = projectData.title;
-        projects.list[i].description = projectData.description;
-        projects.list[i].assets = projectData.assets;
-        return;
-      }
+  projects.edit = function(id,data){
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == id;
+    });
+
+    if(entry){
+      entry.title = data.title;
+      entry.description = data.description;
     }
-    $log.warn('id ', id,' not found for edition.');
-    return;
+    else{
+      $log.warn('id ', id,' not founds for edition.');
+    }
   };
 
-  projects.get = function(id){
-    for(var i = 0 ; i < projects.list.length ; i++){
-      if(projects.list[i].id == id){
-        return projects.list[i];
+  projects.addAsset = function(id, asset){
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == id;
+    });
+
+    if(entry){
+      entry.assets.push(asset);
+    }
+    else{
+      $log.warn('id ', id,' not found for asset addition.');
+    }
+  };
+
+  projects.removeAsset = function(id, asset){
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == id;
+    });
+
+    if(entry){
+      var removedAsset = _.remove(entry.assets,function(chr){
+        return chr == asset;
+      });
+
+      if(removedAsset != asset){
+        $log.warn('id ', id,' found but asset ',asset,' could not be deleted.');
+        $log.warn(entry.assets);
       }
     }
-    $log.warn('id ', id,' not found for get.');
-    return;
+    else{
+      $log.warn('id ', id,' not found for asset deletion.');
+    }
+  }
+
+  projects.get = function(id){
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == id;
+    });
+
+    if(entry){
+      return {
+        "title": entry.title,
+        "description": entry.description,
+        "assets": _.clone(entry.assets)
+      };
+    }
+    else{
+      $log.warn('id ', id,' not found for get.');
+      return;
+    }
   };
 
   projects.add({title: "Gas can", description: "A can of gas.", assets: ["a.jpg","b.jpg"]});

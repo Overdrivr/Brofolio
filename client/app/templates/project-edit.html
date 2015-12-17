@@ -5,6 +5,7 @@
   <div flex="60">
     <md-content layout-padding >
       <div>
+
         <form name="projectForm">
           <h3>Description</h3>
           <md-input-container>
@@ -20,21 +21,21 @@
           <!-- Assets title and + FAB -->
           <div layout="row" layout-align="space-between start">
             <h3>Assets</h3>
-            <md-button class="md-fab" aria-label="Add an asset">
+            <md-button class="md-fab" aria-label="Add an asset" ng-model="file" name="file" ngf-pattern="'image/*'"
+              ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
+              ngf-resize="{width: 100, height: 100}" ngf-select="projects.uploadAsset(file)">
               <md-icon class="material-icon">add</md-icon>
             </md-button>
           </div>
 
           <!-- Display list of existing assets -->
-          <!-- TODO: Make icon a button to provide delete option -->
           <md-list>
-            <md-list-item class="md-clickable" ng-repeat="asset in projects.data.assets">
-              <button class="md-button md-no-style" type="button">
-                <div class="md-list-item-inner">
-                  <p>{{ asset }}</p>
-                  <md-icon class="material-icons">delete</md-icon>
-                </div>
-              </button>
+            <!-- TODO: ng-click should open asset full screen -->
+            <md-list-item class="secondary-button-padding" ng-repeat="asset in projects.data.assets track by $index" ng-click="">
+              <p>{{ asset }}</p>
+              <md-button class="md-icon-button md-secondary" ng-click="projects.removeAsset(asset)" aria-label="More">
+                <md-icon class="material-icons">delete</md-icon>
+              </md-button>
             </md-list-item>
           </md-list>
           <!-- Save button -->
