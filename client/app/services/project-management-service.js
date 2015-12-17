@@ -46,25 +46,36 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
     });
 
     if(entry){
+      var removedAsset = _.remove(entry.assets,function(chr){
+        return chr == asset;
+      });
 
+      if(removedAsset != asset){
+        $log.warn('id ', id,' found but asset ',asset,' could not be deleted.');
+        $log.warn(entry.assets);
+      }
     }
     else{
-      $log.warn('id ', id,' not found for asset addition.');
+      $log.warn('id ', id,' not found for asset deletion.');
     }
   }
 
   projects.get = function(id){
-    for(var i = 0 ; i < projects.list.length ; i++){
-      if(projects.list[i].id == id){
-        return {
-          "title": projects.list[i].title,
-          "description": projects.list[i].description,
-          "assets": _.clone(projects.list[i].assets)
-        };
-      }
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == id;
+    });
+
+    if(entry){
+      return {
+        "title": entry.title,
+        "description": entry.description,
+        "assets": _.clone(entry.assets)
+      };
     }
-    $log.warn('id ', id,' not found for get.');
-    return;
+    else{
+      $log.warn('id ', id,' not found for get.');
+      return;
+    }
   };
 
   projects.add({title: "Gas can", description: "A can of gas.", assets: ["a.jpg","b.jpg"]});
