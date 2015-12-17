@@ -14,12 +14,13 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
   };
 
   projects.edit = function(id,data){
-    var entry = _.find(projects.list,id);
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == id;
+    });
 
     if(entry){
       entry.title = data.title;
       entry.description = data.description;
-      $log.warn('Edited ', id,'.');
     }
     else{
       $log.warn('id ', id,' not founds for edition.');
@@ -45,8 +46,6 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
       }
     }
   }
-
-
 
   projects.get = function(id){
     for(var i = 0 ; i < projects.list.length ; i++){
