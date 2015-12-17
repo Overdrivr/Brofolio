@@ -51,7 +51,10 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
   projects.get = function(id){
     for(var i = 0 ; i < projects.list.length ; i++){
       if(projects.list[i].id == id){
-        return projects.list[i];
+        return {
+          "title": projects.list[i].title,
+          "description": projects.list[i].description
+        };
       }
     }
     $log.warn('id ', id,' not found for get.');
