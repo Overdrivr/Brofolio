@@ -33,7 +33,7 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
     });
 
     if(entry){
-      projects.list[i].assets.push(asset);
+      entry.assets.push(asset);
     }
     else{
       $log.warn('id ', id,' not found for asset addition.');
@@ -46,7 +46,7 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
     });
 
     if(entry){
-      
+
     }
     else{
       $log.warn('id ', id,' not found for asset addition.');
@@ -58,7 +58,8 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
       if(projects.list[i].id == id){
         return {
           "title": projects.list[i].title,
-          "description": projects.list[i].description
+          "description": projects.list[i].description,
+          "assets": _.clone(projects.list[i].assets)
         };
       }
     }
