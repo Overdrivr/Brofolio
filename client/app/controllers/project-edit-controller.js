@@ -22,20 +22,21 @@ angular.module("brofolioApp")
     $state.go("admin");
   };
 
-  this.removeAsset = function(ev){
+  this.removeAsset = function(asset){
+    console.log(asset);
     // Ask for confirmation
     var confirm = $mdDialog.confirm()
           .title('Asset')
           .textContent('Do you want to remove the asset from the project ?')
           .ariaLabel('Delete the asset or not ?')
-          .targetEvent(ev)
           .ok('Yes')
           .cancel('Cancel');
 
     $mdDialog.show(confirm).then(function() {
-      console.log("Continue with the remove");
+      projects.removeAsset(self.id,asset);
+      self.data = projects.get(self.id);
     }, function() {
-      console.log("Cancel the remove");
+      // Do nothing
     });
   };
 
