@@ -1,3 +1,3 @@
-angular.module("brofolioApp").controller("GalleryController",function(){
-  this.assets = assets;
-});
+angular.module("brofolioApp").controller("GalleryController",["projects",function(projectService){
+  this.projects = projectService.list;
+}]);
