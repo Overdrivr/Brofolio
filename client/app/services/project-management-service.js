@@ -28,22 +28,28 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
   };
 
   projects.addAsset = function(id, asset){
-    for(var i = 0 ; i < projects.list.length ; i++){
-      if(projects.list[i].id == id){
-          // TODO ?
-          projects.list[i].assets.push(asset);
-        return;
-      }
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == id;
+    });
+
+    if(entry){
+      projects.list[i].assets.push(asset);
     }
-    $log.warn('id ', id,' not found for asset addition.');
-    return;
+    else{
+      $log.warn('id ', id,' not found for asset addition.');
+    }
   };
 
   projects.removeAsset = function(id, asset){
-    for(var i = 0 ; i < projects.list.length ; i++){
-      if(projects.list[i].id == id){
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == id;
+    });
 
-      }
+    if(entry){
+      
+    }
+    else{
+      $log.warn('id ', id,' not found for asset addition.');
     }
   }
 
