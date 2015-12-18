@@ -7,6 +7,6 @@
     "name": "local",
     "provider": "filesystem",
     "connector": "loopback-component-storage",
-    "root":"./common/storage/"
+    "root": "./server/storage"
   }
 }
