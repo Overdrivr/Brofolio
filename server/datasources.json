@@ -2,5 +2,11 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "local": {
+    "name": "local",
+    "provider": "filesystem",
+    "connector": "loopback-component-storage",
+    "root": "./server/storage"
   }
 }
