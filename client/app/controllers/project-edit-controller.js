@@ -48,16 +48,14 @@ angular.module("brofolioApp")
       return;
     }
      Upload.upload({
-         url: 'upload/url',
+         url: 'api/Containers/test/upload',
          data: {file: file, 'username': 'bouffon'}
      }).then(function (resp) {
          console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+         projects.addAsset(self.id,file.name);
+         self.data = projects.get(self.id);
      }, function (resp) {
          console.log('Error status: ' + resp.status);
-         // TODO: Debug only. to move in success when backend will be connected
-         projects.addAsset(self.id,file.name);
-         // Then get the updated data
-         self.data = projects.get(self.id);
      }, function (evt) {
          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
          console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
