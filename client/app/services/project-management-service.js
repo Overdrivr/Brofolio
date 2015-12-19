@@ -78,9 +78,9 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
     }
   };
 
-  projects.add({title: "Gas can", description: "A can of gas.", assets: ["a.jpg","b.jpg"]});
-  projects.add({title: "Abandonned cabin", description: "A cabin in the woods.", assets: ["a.jpg","b.jpg"]});
-  projects.add({title: "Flamethrower", description: "A cool instant barbecue flame throwing machine.", assets: ["a.jpg","b.jpg"]});
+  projects.add({title: "Gas can", description: "A can of gas."});
+  projects.add({title: "Abandonned cabin", description: "A cabin in the woods."});
+  projects.add({title: "Flamethrower", description: "A cool instant barbecue flame throwing machine."});
 
   return projects;
 }]);
