@@ -2,8 +2,10 @@
   <div id="thumbnailColumn" layout="column" layout-align="center center">
       <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsleft track by $index"/>
   </div>
-  <div id="viewer" layout="row" layout-align="center center">
+  <div id="viewer" layout="column" layout-align="center center">
+      <h1>{{detailsCtrl.displayables[0].title}}</h3>
       <img ng-src="{{detailsCtrl.displayables[0].full}}"/>
+      <p>{{detailsCtrl.displayables[0].description}}</p>
   </div>
   <div id="thumbnailColumn" layout="column" layout-align="center center">
       <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsright track by $index"/>
