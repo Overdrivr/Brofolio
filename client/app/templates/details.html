@@ -1,0 +1,11 @@
+<div style="height:inherit;" layout="row" layout-align="space-around center">
+  <div id="thumbnailColumn" layout="column" layout-align="center center">
+      <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsleft track by $index"/>
+  </div>
+  <div id="viewer" layout="row" layout-align="center center">
+      <img ng-src="{{detailsCtrl.displayables[0].full}}"/>
+  </div>
+  <div id="thumbnailColumn" layout="column" layout-align="center center">
+      <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsright track by $index"/>
+  </div>
+</div>
