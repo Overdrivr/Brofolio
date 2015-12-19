@@ -16,6 +16,8 @@ angular.module("brofolioApp").controller("GalleryController",["projects",functio
 
 var images = [
   {
+    title: "WWII Pilot",
+    description: "My first attempt to digital painting. Done in two weeks using Photoshop. The face of the pilot is inspired from a friend of mine.",
     full: "assets/img/01/Pilote.jpg",
     link: "assets/img/01/Pilot_square.png",
     thumb: "assets/img/01/Pilot_thumbnail.png"
