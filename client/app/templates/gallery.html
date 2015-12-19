@@ -1,6 +1,17 @@
-<div style="height: inherit;" layout="row" layout-align="center center">
-  <img ng-src="{{prj.link}}" ng-repeat="prj in galleryCtrl.displayables"/>
-  <div> A </div>
-  <div> B </div>
-  <div> C </div>
+<div layout="row" layout-align="start start">
+  <div id="toolbar" layout="column" layout-align="center center">
+    <md-button class="md-fab" md-aria="button 1">
+      <md-icon class="material-icons">filter_b_and_w</md-icon>
+    </md-button>
+    <md-button class="md-fab" md-aria="button 1">
+      <md-icon class="material-icons">filter_center_focus</md-icon>
+    </md-button>
+    <md-button class="md-fab" md-aria="button 1">
+      <md-icon class="material-icons">filter_frames</md-icon>
+    </md-button>
+  </div>
+  <div style="height: inherit;" layout="row" layout-wrap layout-align="center center">
+    <img ng-src="{{prj.link}}" ng-repeat="prj in galleryCtrl.displayables"/>
+
+  </div>
 </div>
