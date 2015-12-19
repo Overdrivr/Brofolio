@@ -1,13 +1,23 @@
 angular.module("brofolioApp").controller("GalleryController",["projects",function(projectService){
   var self = this;
-  this.projects = projectService.list;
-  self.displayables = [];
+  //this.projects = projectService.list;
+  self.displayables = images;
 
-  for(var i = 0 ; i < this.projects.length ; i++){
-    if(this.projects[i].assets.length){
-      this.displayables.push(this.projects[i].assets[0]);
-    }
-  }
 
   console.log(self.displayables);
 }]);
+
+var images = [
+  {
+    link: "assets/img/01/Pilot_square.png"
+  },
+  {
+    link: "assets/img/07/Gas_square.png"
+  },
+  {
+    link: "assets/img/12/Pouches_square.jpg"
+  },
+  {
+    link: "assets/img/16/Bruleur_square.png"
+  }
+]
