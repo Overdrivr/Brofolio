@@ -13,6 +13,19 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
     projects.projectId++;
   };
 
+  projects.remove = function(id){
+    var deletedProject = _.remove(projects.list,function(chr){
+      return chr.id == id;
+    });
+
+    if(deletedProject){
+      // Success
+    }
+    else {
+      // Error
+    }
+  };
+
   projects.edit = function(id,data){
     var entry = _.find(projects.list,function(chr){
       return chr.id == id;

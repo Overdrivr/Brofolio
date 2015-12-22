@@ -30,6 +30,21 @@ angular.module("brofolioApp")
       $scope.customFullscreen = (wantsFullScreen === true);
     });
   };
+
+  $scope.showDeleteProjectDialog = function(data) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    var confirm = $mdDialog.confirm()
+          .title('Project deletion')
+          .textContent('Do you want to delete project '+ data.title + ' (id: '+ data.id +') ?')
+          .ariaLabel('delete project ' + data.id)
+          .ok('Confirm')
+          .cancel('Cancel');
+    $mdDialog.show(confirm).then(function() {
+      projects.remove(data.id);
+    }, function() {
+      // Cancelled, do noting
+    });
+  };
 }]);
 
 function DialogController($scope, $mdDialog) {
