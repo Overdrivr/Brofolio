@@ -5,13 +5,6 @@ angular.module("brofolioApp")
 
   var self = this;
   self.projectList = projects.list;
-  self.data = {};
-
-  this.save = function(data){
-    projects.add(data);
-    self.data = {};
-    $state.go("admin");
-  };
 
   $scope.showCreateProjectDialog = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
