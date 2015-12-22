@@ -1,18 +1,34 @@
-<div style="height:inherit;" layout-fill layout="row" layout-align="space-around center">
-  <div id="thumbnailColumn" layout="column" layout-align="center center">
-      <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsleft track by $index"/>
-  </div>
-  <div id="viewer" layout="column" layout-fill layout-align="start center">
-      <div flex="20">
-        <h1>{{detailsCtrl.displayables[0].title}}</h3>
-        <p>{{detailsCtrl.displayables[0].description}}</p>
-      </div>
+<div layout-fill layout="column" layout-align="start center">
 
-      <div flex>
-          <img ng-src="{{detailsCtrl.displayables[0].full}}" style="display: inline;" />
-      </div>
+  <div layout="row" style="width:inherit">
+    <div flex="10">
+      <md-button class="md-fab" md-aria="back to gallery" ui-sref="gallery">
+        <md-icon class="material-icons">photo_library</md-icon>
+      </md-button>
+    </div>
+
+    <div flex="80" layout="column" layout-align="start center">
+      <h1>{{detailsCtrl.displayables[0].title}}</h3>
+      <p>{{detailsCtrl.displayables[0].description}}</p>
+    </div>
+
+    <div flex="10">
+    </div>
   </div>
-  <div id="thumbnailColumn" layout="column" layout-align="center center">
-      <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsright track by $index"/>
+
+  <div id="viewer" layout="row" layout-align="space-around center" style="width:inherit">
+    <div id="thumbnailColumn" layout="column" layout-align="center center">
+        <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsleft track by $index"/>
+    </div>
+
+    <div>
+        <img ng-src="{{detailsCtrl.displayables[0].full}}" style="display: inline;" />
+    </div>
+
+    <div id="thumbnailColumn" layout="column" layout-align="center center">
+        <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsright track by $index"/>
+    </div>
+
   </div>
+
 </div>
