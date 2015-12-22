@@ -1,0 +1,18 @@
+<div style="height:inherit;" layout-fill layout="row" layout-align="space-around center">
+  <div id="thumbnailColumn" layout="column" layout-align="center center">
+      <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsleft track by $index"/>
+  </div>
+  <div id="viewer" layout="column" layout-fill layout-align="start center">
+      <div flex="20">
+        <h1>{{detailsCtrl.displayables[0].title}}</h3>
+        <p>{{detailsCtrl.displayables[0].description}}</p>
+      </div>
+
+      <div flex>
+          <img ng-src="{{detailsCtrl.displayables[0].full}}" style="display: inline;" />
+      </div>
+  </div>
+  <div id="thumbnailColumn" layout="column" layout-align="center center">
+      <img ng-src="{{thumb}}" ng-repeat="thumb in detailsCtrl.thumbsright track by $index"/>
+  </div>
+</div>

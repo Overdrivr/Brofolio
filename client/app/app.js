@@ -31,6 +31,12 @@ angular.module("brofolioApp",["ngMaterial","ui.router","lodash","ngFileUpload"])
         templateUrl: "/app/templates/gallery.html",
         controller: "GalleryController",
         controllerAs: "galleryCtrl"
+      }).
+      state('details', {
+        url:"/details/:id",
+        templateUrl: "/app/templates/details.html",
+        controller: "GalleryController",
+        controllerAs: "detailsCtrl"
       });
     })
 .config(function($mdThemingProvider) {

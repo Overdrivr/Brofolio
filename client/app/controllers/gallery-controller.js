@@ -2,14 +2,25 @@ angular.module("brofolioApp").controller("GalleryController",["projects",functio
   var self = this;
   //this.projects = projectService.list;
   self.displayables = images;
+  self.thumbsleft = [];
+  self.thumbsright = [];
 
+  for(var i = 0 ; i < 5 ; i++){
+    self.thumbsleft.push(images[0].thumb);
+  }
 
-  console.log(self.displayables);
+  for(var i = 0 ; i < 5 ; i++){
+    self.thumbsright.push(images[0].thumb);
+  }
 }]);
 
 var images = [
   {
-    link: "assets/img/01/Pilot_square.png"
+    title: "WWII Pilot",
+    description: "My first attempt to digital painting. Done in two weeks using Photoshop. The face of the pilot is inspired from a friend of mine.",
+    full: "assets/img/01/Pilote.jpg",
+    link: "assets/img/01/Pilot_square.png",
+    thumb: "assets/img/01/Pilot_thumbnail.png"
   },
   {
     link: "assets/img/07/Gas_square.png"
