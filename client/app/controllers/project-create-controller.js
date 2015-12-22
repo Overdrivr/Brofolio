@@ -15,6 +15,7 @@ angular.module("brofolioApp")
 
   $scope.showCreateProjectDialog = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    // Open the dialog to request project name
     $mdDialog.show({
       controller: DialogController,
       templateUrl: '/app/templates/dialog-create-project.html',
@@ -23,11 +24,13 @@ angular.module("brofolioApp")
       clickOutsideToClose:true,
       fullscreen: useFullScreen
     })
-    .then(function(answer) {
-      $scope.status = 'You said the information was "' + answer + '".';
+    // Actions to perform once dialog is closed
+    .then(function(title) {
+      projects.add(title);
     }, function() {
-      $scope.status = 'You cancelled the dialog.';
+      // Dialog cancelled, do nothing
     });
+
     $scope.$watch(function() {
       return $mdMedia('xs') || $mdMedia('sm');
     }, function(wantsFullScreen) {
