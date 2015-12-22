@@ -1,5 +1,5 @@
 angular.module("brofolioApp")
-.controller("projectEditionController",
+.controller("projectEditController",
          ["projects","$state","$stateParams","$mdDialog","Upload",
   function(projects,  $state,  $stateParams,  $mdDialog, Upload){
   var self = this;

@@ -3,11 +3,11 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
   projects.projectId = 0;
   projects.list = [];
 
-  projects.add = function(data){
+  projects.add = function(title){
     projects.list.push({
       id: projects.projectId,
-      title: data.title,
-      description: data.description,
+      title: title,
+      description: "",
       assets: []
     });
     projects.projectId++;
@@ -19,8 +19,8 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
     });
 
     if(entry){
-      entry.title = data.title;
-      entry.description = data.description;
+      entry.title = data.title || entry.title;
+      entry.description = data.description || entry.description;
     }
     else{
       $log.warn('id ', id,' not founds for edition.');
@@ -78,9 +78,12 @@ angular.module("brofolioApp").factory("projects",["$log","_",function($log,_){
     }
   };
 
-  projects.add({title: "Gas can", description: "A can of gas."});
-  projects.add({title: "Abandonned cabin", description: "A cabin in the woods."});
-  projects.add({title: "Flamethrower", description: "A cool instant barbecue flame throwing machine."});
+  projects.add("Gas can");
+  projects.edit(0,{description: "A can of gas."});
+  projects.add("Abandonned cabin");
+  projects.edit(1,{description: "A cabin in the woods."});
+  projects.add("Flamethrower");
+  projects.edit(2,{description: "A cool instant barbecue flame throwing machine."});
 
   return projects;
 }]);
