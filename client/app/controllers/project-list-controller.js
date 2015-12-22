@@ -1,5 +1,5 @@
 angular.module("brofolioApp")
-  .controller("projectCreationController",
+  .controller("projectListController",
   ["projects","$state","$log","$scope","$mdMedia","$mdDialog",
   function(projects,$state,$log,$scope,$mdMedia,$mdDialog){
 
