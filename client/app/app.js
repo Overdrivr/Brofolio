@@ -11,19 +11,13 @@ angular.module("brofolioApp",["ngMaterial","ui.router","lodash","ngFileUpload"])
       .state('admin', {
         url: "/projects",
         templateUrl: "/app/templates/project-list.html",
-        controller: "projectCreationController",
-        controllerAs: "projects"
-      })
-      .state('create', {
-        url: "/create",
-        templateUrl: "/app/templates/project-create.html",
-        controller: "projectCreationController",
+        controller: "projectListController",
         controllerAs: "projects"
       })
       .state('edit', {
         url: "/edit/:id",
         templateUrl: "/app/templates/project-edit.html",
-        controller: "projectEditionController",
+        controller: "projectEditController",
         controllerAs: "projects"
       })
       .state('gallery', {
