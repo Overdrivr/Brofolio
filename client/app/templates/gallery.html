@@ -11,7 +11,6 @@
     </md-button>
   </div>
   <div style="height: inherit;" layout="row" layout-wrap layout-align="center center">
-    <img ng-src="{{prj.link}}" ng-repeat="prj in galleryCtrl.displayables"/>
-
+    <img ng-src="{{prj.link}}" ng-click ui-sref="details({id: 0})" ng-repeat="prj in galleryCtrl.displayables"/>
   </div>
 </div>
