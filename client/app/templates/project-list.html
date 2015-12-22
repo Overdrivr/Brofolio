@@ -19,7 +19,7 @@
           <md-list-item class="secondary-button-padding" ng-repeat="project in projects.projectList" ui-sref="edit({id: project.id})" ng-click="">
             <img ng-src="/assets/img/01/Pilot_thumbnail.png" class="md-avatar" />
             <p>{{ project.title }}</p>
-            <md-button class="md-icon-button md-secondary" ng-click="projects.removeProject(project.id)" aria-label="More">
+            <md-button class="md-icon-button md-secondary" ng-click="showDeleteProjectDialog(project)" aria-label="More">
               <md-icon class="material-icons">delete</md-icon>
             </md-button>
           </md-list-item>
