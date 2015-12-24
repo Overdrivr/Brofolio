@@ -4,8 +4,7 @@ angular.module("brofolioApp")
   "$state",
   "$stateParams",
   "$mdDialog",
-  "Upload",
-  function(projects,  $state,  $stateParams,  $mdDialog, Upload){
+  function(projects,  $state,  $stateParams,  $mdDialog){
 
   var vm = this;
 
@@ -58,22 +57,20 @@ angular.module("brofolioApp")
     $state.go("admin");
   };
 
+  // TODO : Move to service
   function uploadAsset(file) {
     if(!file){
       return;
     }
-     Upload.upload({
-         url: 'api/Containers/test/upload',
-         data: {file: file, 'username': 'bouffon'}
-     }).then(function (resp) {
-         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-         projects.addAsset(vm.id,file.name);
-         vm.data = projects.get(vm.id);
-     }, function (resp) {
-         console.log('Error status: ' + resp.status);
-     }, function (evt) {
-         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-         console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-     });
+
+    projects.addAsset(vm.id,file,function(err){
+      // On operation complete
+      if(err) return console.log(err);
+      vm.data = projects.get(vm.id);
+      console.log("Uploaded successfully.");
+    }, function(progress){
+      // During operation
+      console.log("Progress ",progress," %");
+    });
   };
 }])
