@@ -19,7 +19,7 @@ angular.module("brofolioApp")
     })
     // Actions to perform once dialog is closed
     .then(function(title) {
-      projects.add(title);
+      projects.create(title);
     }, function() {
       // Dialog cancelled, do nothing
     });
@@ -40,7 +40,7 @@ angular.module("brofolioApp")
           .ok('Confirm')
           .cancel('Cancel');
     $mdDialog.show(confirm).then(function() {
-      projects.remove(data.id);
+      projects.delete(data.id);
     }, function() {
       // Cancelled, do noting
     });

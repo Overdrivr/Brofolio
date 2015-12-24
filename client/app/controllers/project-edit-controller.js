@@ -1,29 +1,40 @@
 angular.module("brofolioApp")
-.controller("projectEditController",
-         ["projects","$state","$stateParams","$mdDialog","Upload",
-  function(projects,  $state,  $stateParams,  $mdDialog, Upload){
-  var self = this;
-  self.projectList = projects.list;
+.controller("projectEditController",[
+  "projects",
+  "$state",
+  "$stateParams",
+  "$mdDialog",
+  function(projects,  $state,  $stateParams,  $mdDialog){
 
-  // Find project in list by id
-  var existingData = projects.get($stateParams.id);
+  var vm = this;
 
-  if(existingData){
-    self.data = existingData;
-    self.id = $stateParams.id
-  }
-  else {
-    $state.go("admin");
-  }
+  //-- Function members
+  vm.removeAsset = removeAsset;
+  vm.uploadAsset = uploadAsset;
+  vm.save = save;
 
-  this.save = function(data){
-    projects.edit(self.id,self.data);
-    self.data = {};
-    $state.go("admin");
+  //-- Bound objects
+  vm.projectList = projects.list;
+
+  //-- Initialization
+  init();
+
+  //-- Implementations
+
+  function init(){
+    // Find project in list by id
+    var existingData = projects.get($stateParams.id);
+
+    if(existingData){
+      vm.data = existingData;
+      vm.id = $stateParams.id
+    }
+    else {
+      $state.go("admin");
+    }
   };
 
-  this.removeAsset = function(asset){
-    console.log(asset);
+  function removeAsset(asset){
     // Ask for confirmation
     var confirm = $mdDialog.confirm()
           .title('Asset')
@@ -33,32 +44,33 @@ angular.module("brofolioApp")
           .cancel('Cancel');
 
     $mdDialog.show(confirm).then(function() {
-      projects.removeAsset(self.id,asset);
-      self.data = projects.get(self.id);
+      projects.removeAsset(vm.id,asset);
+      vm.data = projects.get(vm.id);
     }, function() {
       // Do nothing
     });
   };
 
+  function save(data){
+    projects.edit(vm.id,vm.data);
+    vm.data = {};
+    $state.go("admin");
+  };
 
-  // upload on file select or drop
-  this.uploadAsset = function (file) {
-    console.log("file",file);
+  // TODO : Move to service
+  function uploadAsset(file) {
     if(!file){
       return;
     }
-     Upload.upload({
-         url: 'api/Containers/test/upload',
-         data: {file: file, 'username': 'bouffon'}
-     }).then(function (resp) {
-         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-         projects.addAsset(self.id,file.name);
-         self.data = projects.get(self.id);
-     }, function (resp) {
-         console.log('Error status: ' + resp.status);
-     }, function (evt) {
-         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-         console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-     });
+
+    projects.addAsset(vm.id,file,function(err){
+      // On operation complete
+      if(err) return console.log(err);
+      vm.data = projects.get(vm.id);
+      console.log("Uploaded successfully.");
+    }, function(progress){
+      // During operation
+      console.log("Progress ",progress," %");
+    });
   };
 }])
