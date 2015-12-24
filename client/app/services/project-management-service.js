@@ -2,16 +2,18 @@ angular.module("brofolioApp")
   .factory("projects",[
     "$log",
     "_",
-    function($log,_){
+    "Upload",
+    function($log,_,$upload){
 
   var projects = {};
 
   //-- Bindable methods
-  projects.add = add;
+
   projects.addAsset = addAsset;
+  projects.create = create;
+  projects.delete = _delete;
   projects.edit = edit;
   projects.get = get;
-  projects.remove = remove;
   projects.removeAsset = removeAsset;
 
 
@@ -19,18 +21,46 @@ angular.module("brofolioApp")
   projects.projectId = 0;
   projects.list = [];
 
-  projects.add("Gas can");
+  projects.create("Gas can");
   projects.edit(0,{description: "A can of gas."});
-  projects.add("Abandonned cabin");
+  projects.create("Abandonned cabin");
   projects.edit(1,{description: "A cabin in the woods."});
-  projects.add("Flamethrower");
+  projects.create("Flamethrower");
   projects.edit(2,{description: "A cool instant barbecue flame throwing machine."});
 
   return projects;
 
   //-- Implementations
 
-  function add(title){
+  function addAsset(projectId, file, doneCb, progressCb){
+    var entry = _.find(projects.list,function(chr){
+      return chr.id == projectId;
+    });
+
+    if(entry){
+      $upload.upload({
+          url: 'api/Containers/test/upload',
+          data: {file: file}
+      }).then(function (resp) {
+          entry.assets.push(file.name);
+          doneCb();
+          return;
+      }, function (resp) {
+          var err = "Upload failed with status " + resp.status;
+          doneCb(new Error(err));
+          return;
+      }, function (evt) {
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          progressCb(progressPercentage);
+      });
+    }
+    else{
+      var err = 'id ' + id + ' not found for asset addition.';
+      return doneCb(new RangeError(err));
+    }
+  };
+
+  function create(title){
     projects.list.push({
       id: projects.projectId,
       title: title,
@@ -40,16 +70,16 @@ angular.module("brofolioApp")
     projects.projectId++;
   };
 
-  function addAsset(id, asset){
-    var entry = _.find(projects.list,function(chr){
+  function _delete(id){
+    var deletedProject = _.remove(projects.list,function(chr){
       return chr.id == id;
     });
 
-    if(entry){
-      entry.assets.push(asset);
+    if(deletedProject){
+      // Success
     }
-    else{
-      $log.warn('id ', id,' not found for asset addition.');
+    else {
+      // Error
     }
   };
 
@@ -82,19 +112,6 @@ angular.module("brofolioApp")
     else{
       $log.warn('id ', id,' not found for get.');
       return;
-    }
-  };
-
-  function remove(id){
-    var deletedProject = _.remove(projects.list,function(chr){
-      return chr.id == id;
-    });
-
-    if(deletedProject){
-      // Success
-    }
-    else {
-      // Error
     }
   };
 
