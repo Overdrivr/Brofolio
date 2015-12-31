@@ -1,3 +1,5 @@
+var credentials = require('../credentials.example.json').admin;
+
 module.exports = function(app, cb){
   var User = app.models.User;
 
@@ -25,7 +27,7 @@ module.exports = function(app, cb){
   User.disableRemoteMethod('__get__accessTokens', false);
   User.disableRemoteMethod('__updateById__accessTokens', false);
 
-  User.create({email: `a@foo.fr`, password: `abc`},function(err,user){
+  User.create({email: credentials.email, password: credentials.password},function(err,user){
     if(err){
       console.log(err);
       cb();
