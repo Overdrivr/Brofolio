@@ -36,13 +36,15 @@ describe("Unauthenticated user",function() {
       })
       .expect(200, function(err, res){
         if (err) return  done(err);
+        console.log(res.headers);
+        console.log(res.body);
         createdProjetId = res.body.id;
         done();
       });
   });
 
   it("should have created a folder in storage for the new project", function(done){
-    fs.access('../server/storage' + createdProjetId + '/', fs.F_OK, function(err){
+    fs.access('./server/storage/project' + createdProjetId + '/', fs.F_OK, function(err){
       if (err) return done(err);
       done();
     })
