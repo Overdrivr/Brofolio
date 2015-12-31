@@ -6,9 +6,13 @@
     "validateUpsert": true
   },
   "properties": {
-    "description": {
+    "title": {
       "type": "string",
       "required": true
+    },
+    "description": {
+      "type": "string",
+      "required": false
     },
     "startdate": {
       "type": "date"
@@ -36,6 +40,13 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
     }
   ],
   "methods": {}
