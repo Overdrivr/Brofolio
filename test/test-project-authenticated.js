@@ -12,7 +12,7 @@ function json(verb, url) {
       .expect('Content-Type', /json/);
   };
 
-describe("Unauthenticated user",function() {
+describe("User",function() {
 
   var accessToken;
   var createdProjetId = -1;
@@ -50,10 +50,7 @@ describe("Unauthenticated user",function() {
   });
 
   it("should be able to delete an existing project", function(done){
-    json('delete', '/api/Projects/' + createdProjetId + '?access_token' + accessToken)
-    .send({
-      id:createdProjetId
-    })
+    json('delete', '/api/Projects/' + createdProjetId + '?access_token=' + accessToken)
     .expect(200, function(err,res){
       if (err) return done(err);
       done();
