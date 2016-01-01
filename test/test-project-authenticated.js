@@ -50,7 +50,7 @@ describe("Unauthenticated user",function() {
   });
 
   it("should be able to delete an existing project", function(done){
-    json('delete', '/api/Projects/?access_token' + access_token)
+    json('delete', '/api/Projects/' + createdProjetId + '?access_token' + accessToken)
     .send({
       id:createdProjetId
     })
