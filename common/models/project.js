@@ -1,15 +1,11 @@
 module.exports = function(Project) {
 
   Project.on('dataSourceAttached', function(obj){
+    // Add container creation to Project.create
     var create = Project.create;
     Project.create = function(data, cb) {
-      // Create folder
+
       var datasource = Project.app.datasources.Local;
-      // Resume built-in method execution
-      /*console.log("Folder: ", data);
-      for(i in Project.app.datasources.Local.connector){
-        console.log(i);
-      }*/
 
       create.apply(this, [data, function(err, model){
         if (err) return cb(err);
@@ -22,5 +18,14 @@ module.exports = function(Project) {
         });
       }]);
     };
+  });
+
+  // Use operation hook to clean after a delete operation
+  Project.observe("before delete", function(ctx, next){
+    var datasource = Project.app.datasources.Local;
+    datasource.connector.destroyContainer("project" + ctx.where.id, function(err){
+      if (err) return next(err);
+      return next();
+    });
   });
 };
