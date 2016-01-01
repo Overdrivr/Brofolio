@@ -57,7 +57,7 @@ describe("User",function() {
     });
   });
 
-  if("should have removed deleted project folder from storage", function(done){
+  it("should have removed deleted project folder from storage", function(done){
     fs.access(storagecfg.local.root + '/project' + createdProjetId + '/', fs.F_OK, function(err){
       if(err) return done();
       done(new Error("Folder not removed."));
