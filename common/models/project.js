@@ -18,7 +18,7 @@ module.exports = function(Project) {
 
         datasource.connector.createContainer({"name": containerName}, function(err,container){
           if(err) return cb(err);
-          return cb(null,container);
+          return cb(null,model);
         });
       }]);
     };
