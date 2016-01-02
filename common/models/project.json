@@ -54,6 +54,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "deleteById"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "__create__assets"
     }
   ],
   "methods": {}
