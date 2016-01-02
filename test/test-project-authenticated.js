@@ -49,6 +49,22 @@ describe("User",function() {
     });
   });
 
+  it("should be able to add an asset to the new project", function(done){
+    var stream = fs.createReadStream('./test/avatar.png')
+    var req = json('post', '/api/Projects/' + createdProjetId + '/assets?access_token=' + accessToken)
+    .send({
+      title: "test",
+      resource: stream
+    })
+    .expect(200);
+
+    req.end(function(err, res){
+      console.log(err);
+      if (err) return done(err);
+      done();
+    });
+  });
+/*
   it("should be able to delete an existing project", function(done){
     json('delete', '/api/Projects/' + createdProjetId + '?access_token=' + accessToken)
     .expect(200, function(err,res){
@@ -56,7 +72,7 @@ describe("User",function() {
       done();
     });
   });
-
+*/
   it("should have removed deleted project folder from storage", function(done){
     fs.access(storagecfg.local.root + '/project' + createdProjetId + '/', fs.F_OK, function(err){
       if(err) return done();
