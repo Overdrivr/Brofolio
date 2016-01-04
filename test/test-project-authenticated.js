@@ -64,7 +64,14 @@ describe("User",function() {
       done();
     });
   });
-/*
+
+  it("should have uploaded the new asset to the project folder", function(done){
+    fs.access(storagecfg.local.root + '/project' + createdProjetId + '/' + 'avatar.png', fs.F_OK, function(err){
+      if (err) return done(err);
+      done();
+    });
+  });
+
   it("should be able to delete an existing project", function(done){
     json('delete', '/api/Projects/' + createdProjetId + '?access_token=' + accessToken)
     .expect(200, function(err,res){
@@ -72,7 +79,7 @@ describe("User",function() {
       done();
     });
   });
-*/
+
   it("should have removed deleted project folder from storage", function(done){
     fs.access(storagecfg.local.root + '/project' + createdProjetId + '/', fs.F_OK, function(err){
       if(err) return done();
