@@ -6,12 +6,14 @@
     "validateUpsert": true
   },
   "properties": {
-    "title": {
-      "type": "string",
-      "required": true
+    "name": {
+      "type": "string"
     },
-    "resource": {
-      "type": "object",
+    "type": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
       "required": true
     }
   },
@@ -29,6 +31,13 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "upload"
     }
   ],
   "methods": {}
