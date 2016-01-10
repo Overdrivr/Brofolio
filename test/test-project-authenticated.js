@@ -3,28 +3,10 @@ var assert = require('chai').assert;
 var app = require('../server/server');
 var credentials = require('../server/credentials.example.json').admin;
 var fs = require('fs');
-var storagecfg = require('../server/datasources.json');
 var loopback = require('loopback');
-
 var storagecfg = require('../server/datasources.json');
 var fs = require('fs');
-var rimraf = require('rimraf');
-
-/* Set up the test server */
-before(function(done){
-  // Delete test projects folder recursively
-  rimraf(storagecfg.local.root,[],function(err){
-    if (err) return done(err);
-
-    fs.mkdir(storagecfg.local.root,function(err){
-      if (err) return done(err);
-      done();
-    });
-  });
-  for(i in app.models.Asset.upload)
-    console.log(i);
-});
-
+var setup = require('./setup-test');
 
 function json(verb, url) {
     return request(app)[verb](url)
@@ -73,13 +55,11 @@ describe("User",function() {
 
   it("should be able to add an asset to the new project", function(done){
     //var stream = fs.createReadStream('./test/avatar.png')
-    var req = json('post', '/api/Assets/upload?access_token='+accessToken)
+    json('post', '/api/Projects/' + createdProjetId + '/Assets/upload?access_token='+accessToken)
     .set('Content-Type', 'multipart/form-data')
     .attach('image','./test/avatar.png')
     .field('extra_info', '{"name":"booya"}')
-    .expect(200);
-
-    req.end(function(err, res){
+    .expect(200, function(err, res){
       if (err) return done(err);
       done();
     });
@@ -93,7 +73,7 @@ describe("User",function() {
   });
 
   it("should be able to delete an existing project", function(done){
-    json('delete', '/api/Projects/project' + createdProjetId + '?access_token=' + accessToken)
+    json('delete', '/api/Projects/' + createdProjetId + '?access_token=' + accessToken)
     .set('Content-Type', 'application/json')
     .expect(200, function(err,res){
       if (err) return done(err);
