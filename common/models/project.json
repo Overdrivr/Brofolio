@@ -61,6 +61,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "__create__assets"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "upload"
     }
   ],
   "methods": {}
