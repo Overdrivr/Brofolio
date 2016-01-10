@@ -1,13 +1,15 @@
 var request = require('supertest');
 var assert = require('chai').assert;
-var app = require('./setup-test-server.js');
+var app = require('../server/server');
 var credentials = require('../server/credentials.example.json').admin;
 var fs = require('fs');
+var loopback = require('loopback');
 var storagecfg = require('../server/datasources.json');
+var fs = require('fs');
+var setup = require('./setup-test');
 
 function json(verb, url) {
     return request(app)[verb](url)
-      .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/);
   };
@@ -19,6 +21,7 @@ describe("User",function() {
 
   it('should be allowed, with valid credentials, to login and get the token', function(done){
     json('post', '/api/Users/login')
+      .set('Content-Type', 'application/json')
       .send(credentials)
       .expect(200, function(err, res) {
         if (err)  return done(err);
@@ -32,6 +35,7 @@ describe("User",function() {
 
   it("should be able to create a new project", function(done){
     json('post', '/api/Projects/?access_token=' + accessToken)
+      .set('Content-Type', 'application/json')
       .send({
         title:"testProject"
       })
@@ -49,8 +53,28 @@ describe("User",function() {
     });
   });
 
+  it("should be able to add an asset to the new project", function(done){
+    //var stream = fs.createReadStream('./test/avatar.png')
+    json('post', '/api/Projects/' + createdProjetId + '/Assets/upload?access_token='+accessToken)
+    .set('Content-Type', 'multipart/form-data')
+    .attach('image','./test/avatar.png')
+    .field('extra_info', '{"name":"booya"}')
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      done();
+    });
+  });
+
+  it("should have uploaded the new asset to the project folder", function(done){
+    fs.access(storagecfg.local.root + '/project' + createdProjetId + '/' + 'avatar.png', fs.F_OK, function(err){
+      if (err) return done(err);
+      done();
+    });
+  });
+
   it("should be able to delete an existing project", function(done){
     json('delete', '/api/Projects/' + createdProjetId + '?access_token=' + accessToken)
+    .set('Content-Type', 'application/json')
     .expect(200, function(err,res){
       if (err) return done(err);
       done();

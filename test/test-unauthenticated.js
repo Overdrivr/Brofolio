@@ -1,6 +1,6 @@
 var request = require('supertest');
 var assert = require('chai').assert;
-var app = require('./setup-test-server.js');
+var app = require('../server/server');
 
 function json(verb, url) {
     return request(app)[verb](url)

@@ -1,5 +1,47 @@
 module.exports = function(Project) {
 
+  var CONTAINERS_URL = '/api/Containers/';
+
+  Project.upload = function (ctx,id,options,cb) {
+    var response = "YOLOLO";
+
+    if(!options) options = {};
+    ctx.req.params.container = 'project1';
+
+    Project.app.models.Container.upload(ctx.req,ctx.result,options,function (err,fileObj) {
+        if(err) return cb(err);
+
+        var fileInfo = fileObj.files.image[0];
+
+        var Asset = Project.app.models.Asset;
+        Asset.create({
+            name: fileInfo.name,
+            type: fileInfo.type,
+            container: fileInfo.container,
+            url: CONTAINERS_URL+fileInfo.container+'/download/'+fileInfo.name
+        },function (err,obj) {
+            if (err) return cb(err);
+            cb(null, obj);
+        });
+      });
+    };
+
+    Project.remoteMethod(
+        'upload',
+        {
+            description: 'Uploads a file',
+            accepts: [
+                { arg: 'ctx', type: 'object', http: { source:'context' } },
+                { arg: 'id', type: 'number', required: true },
+                { arg: 'options', type: 'object', http:{ source: 'query'} }
+            ],
+            returns: {
+                arg: 'fileObject', type: 'object', root: true
+            },
+            http: {path: '/:id/Assets/upload', verb: 'post'}
+        }
+    );
+
   Project.on('dataSourceAttached', function(obj){
     // Add container creation to Project.create
     var create = Project.create;
