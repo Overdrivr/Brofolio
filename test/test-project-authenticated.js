@@ -70,7 +70,6 @@ describe("User",function() {
     json('get', '/api/Assets/'+ createdAssetId + '?access_token=' + accessToken)
     .expect(200, function(err, res){
       if (err) return done(err);
-      console.log(res.body)
       done();
     })
   });
@@ -79,7 +78,25 @@ describe("User",function() {
     json('get', '/api/Assets/'+createdAssetId)
     .expect(200, function(err, res){
       if (err) return done(err);
-      console.log(res.body)
+      done();
+    })
+  });
+
+  it("should be able to find the new asset among all assets through the project related method (with no identification)", function(done){
+    json('get', '/api/Projects/' + createdProjetId + '/assets/?access_token=' + accessToken)
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      var asset1 = res.body[0]
+      assert.equal(asset1.name,'avatar.png');
+      assert.equal(asset1.projectId,createdProjetId);
+      done();
+    })
+  });
+
+  it("should be able to find the new asset through the project related method", function(done){
+    json('get', '/api/Projects/' + createdProjetId + '/assets/'+ createdAssetId + '?access_token=' + accessToken)
+    .expect(200, function(err, res){
+      if (err) return done(err);
       done();
     })
   });
