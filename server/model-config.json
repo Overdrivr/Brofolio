@@ -46,6 +46,6 @@
   },
   "Container": {
     "dataSource": "local",
-    "public": false
+    "public": true
   }
 }

@@ -14,10 +14,18 @@ function json(verb, url) {
       .expect('Content-Type', /json/);
   };
 
+function png(verb, url) {
+    return request(app)[verb](url)
+      .set('Accept', 'image/png')
+      .expect('Content-Type', /image/);
+  };
+
 describe("User",function() {
 
   var accessToken;
   var createdProjetId = -1;
+  var createdAssetId = -1;
+  var resourceUrl;
 
   it('should be allowed, with valid credentials, to login and get the token', function(done){
     json('post', '/api/Users/login')
@@ -54,15 +62,52 @@ describe("User",function() {
   });
 
   it("should be able to add an asset to the new project", function(done){
-    //var stream = fs.createReadStream('./test/avatar.png')
-    json('post', '/api/Projects/' + createdProjetId + '/Assets/upload?access_token='+accessToken)
+    json('post', '/api/Projects/' + createdProjetId + '/Assets/upload?access_token=' + accessToken)
     .set('Content-Type', 'multipart/form-data')
     .attach('image','./test/avatar.png')
     .field('extra_info', '{"name":"booya"}')
     .expect(200, function(err, res){
       if (err) return done(err);
+      createdAssetId = res.body.id;
+      assert(res.body.url,"Download url should be provided");
+      resourceUrl = res.body.url;
       done();
     });
+  });
+
+  it("should be able to find the new asset", function(done){
+    json('get', '/api/Assets/'+ createdAssetId + '?access_token=' + accessToken)
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      done();
+    })
+  });
+
+  it("should be able to find the new asset without being identified", function(done){
+    json('get', '/api/Assets/'+createdAssetId)
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      done();
+    })
+  });
+
+  it("should be able to find the new asset among all assets through the project related method (with no identification)", function(done){
+    json('get', '/api/Projects/' + createdProjetId + '/assets/?access_token=' + accessToken)
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      var asset1 = res.body[0]
+      assert.equal(asset1.name,'avatar.png');
+      assert.equal(asset1.projectId,createdProjetId);
+      done();
+    })
+  });
+
+  it("should be able to find the new asset through the project related method", function(done){
+    json('get', '/api/Projects/' + createdProjetId + '/assets/'+ createdAssetId + '?access_token=' + accessToken)
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      done();
+    })
   });
 
   it("should have uploaded the new asset to the project folder", function(done){
@@ -70,6 +115,38 @@ describe("User",function() {
       if (err) return done(err);
       done();
     });
+  });
+
+  it("should be able to download the newly uploaded asset", function(done){
+    png('get',resourceUrl)
+      .expect(200, function(err, res){
+        if(err) return done(err);
+        done();
+      });
+  });
+
+  it("should be able to delete asset from new project", function(done){
+    json('delete', '/api/Projects/' + createdProjetId + '/assets/' + createdAssetId + '?access_token=' + accessToken)
+    .expect(204, function(err, res){
+      if (err) return done(err);
+      done();
+    });
+  });
+
+  it("should not be able to find the deleted asset through the project related method", function(done){
+    json('get', '/api/Projects/' + createdProjetId + '/assets/'+ createdAssetId + '?access_token=' + accessToken)
+    .expect(404, function(err, res){
+      if (err) return done(err);
+      done();
+    })
+  });
+
+  it("should not be able to find the deleted asset", function(done){
+    json('get', '/api/Assets/'+ createdAssetId + '?access_token=' + accessToken)
+    .expect(404, function(err, res){
+      if (err) return done(err);
+      done();
+    })
   });
 
   it("should be able to delete an existing project", function(done){

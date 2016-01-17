@@ -6,6 +6,7 @@ module.exports = function(Project) {
     var response = "YOLOLO";
 
     if(!options) options = {};
+
     ctx.req.params.container = 'project1';
 
     Project.app.models.Container.upload(ctx.req,ctx.result,options,function (err,fileObj) {
@@ -18,6 +19,7 @@ module.exports = function(Project) {
             name: fileInfo.name,
             type: fileInfo.type,
             container: fileInfo.container,
+            projectId: id,
             url: CONTAINERS_URL+fileInfo.container+'/download/'+fileInfo.name
         },function (err,obj) {
             if (err) return cb(err);
