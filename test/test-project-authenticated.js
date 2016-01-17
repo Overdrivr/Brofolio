@@ -18,6 +18,7 @@ describe("User",function() {
 
   var accessToken;
   var createdProjetId = -1;
+  var createdAssetId = -1;
 
   it('should be allowed, with valid credentials, to login and get the token', function(done){
     json('post', '/api/Users/login')
@@ -54,19 +55,50 @@ describe("User",function() {
   });
 
   it("should be able to add an asset to the new project", function(done){
-    //var stream = fs.createReadStream('./test/avatar.png')
-    json('post', '/api/Projects/' + createdProjetId + '/Assets/upload?access_token='+accessToken)
+    json('post', '/api/Projects/' + createdProjetId + '/Assets/upload?access_token=' + accessToken)
     .set('Content-Type', 'multipart/form-data')
     .attach('image','./test/avatar.png')
     .field('extra_info', '{"name":"booya"}')
     .expect(200, function(err, res){
       if (err) return done(err);
+      createdAssetId = res.body.id;
       done();
     });
   });
 
+  it("should be able to find the new asset", function(done){
+    json('get', '/api/Assets/'+ createdAssetId + '?access_token=' + accessToken)
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      console.log(res.body)
+      done();
+    })
+  });
+
+  it("should be able to find the new asset without being identified", function(done){
+    json('get', '/api/Assets/'+createdAssetId)
+    .expect(200, function(err, res){
+      if (err) return done(err);
+      console.log(res.body)
+      done();
+    })
+  });
+
   it("should have uploaded the new asset to the project folder", function(done){
     fs.access(storagecfg.local.root + '/project' + createdProjetId + '/' + 'avatar.png', fs.F_OK, function(err){
+      if (err) return done(err);
+      done();
+    });
+  });
+/*
+  it("should be able to download the upload asset", function(done){
+    //
+    done();
+  })
+*/
+  it("should be able to delete asset from new project", function(done){
+    json('delete', '/api/Projects/' + createdProjetId + '/assets/' + createdAssetId + '?access_token=' + accessToken)
+    .expect(200, function(err, res){
       if (err) return done(err);
       done();
     });
