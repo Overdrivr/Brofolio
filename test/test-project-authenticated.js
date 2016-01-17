@@ -14,11 +14,18 @@ function json(verb, url) {
       .expect('Content-Type', /json/);
   };
 
+function png(verb, url) {
+    return request(app)[verb](url)
+      .set('Accept', 'image/png')
+      .expect('Content-Type', /image/);
+  };
+
 describe("User",function() {
 
   var accessToken;
   var createdProjetId = -1;
   var createdAssetId = -1;
+  var resourceUrl;
 
   it('should be allowed, with valid credentials, to login and get the token', function(done){
     json('post', '/api/Users/login')
@@ -62,6 +69,8 @@ describe("User",function() {
     .expect(200, function(err, res){
       if (err) return done(err);
       createdAssetId = res.body.id;
+      assert(res.body.url,"Download url should be provided");
+      resourceUrl = res.body.url;
       done();
     });
   });
@@ -107,18 +116,37 @@ describe("User",function() {
       done();
     });
   });
-/*
-  it("should be able to download the upload asset", function(done){
-    //
-    done();
-  })
-*/
+
+  it("should be able to download the newly uploaded asset", function(done){
+    png('get',resourceUrl)
+      .expect(200, function(err, res){
+        if(err) return done(err);
+        done();
+      });
+  });
+
   it("should be able to delete asset from new project", function(done){
     json('delete', '/api/Projects/' + createdProjetId + '/assets/' + createdAssetId + '?access_token=' + accessToken)
-    .expect(200, function(err, res){
+    .expect(204, function(err, res){
       if (err) return done(err);
       done();
     });
+  });
+
+  it("should not be able to find the deleted asset through the project related method", function(done){
+    json('get', '/api/Projects/' + createdProjetId + '/assets/'+ createdAssetId + '?access_token=' + accessToken)
+    .expect(404, function(err, res){
+      if (err) return done(err);
+      done();
+    })
+  });
+
+  it("should not be able to find the deleted asset", function(done){
+    json('get', '/api/Assets/'+ createdAssetId + '?access_token=' + accessToken)
+    .expect(404, function(err, res){
+      if (err) return done(err);
+      done();
+    })
   });
 
   it("should be able to delete an existing project", function(done){
