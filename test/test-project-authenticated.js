@@ -23,9 +23,8 @@ function png(verb, url) {
 describe("User",function() {
 
   var accessToken;
-  var createdProjetId = -1;
-  var createdAssetId = -1;
-  var resourceUrl;
+  var createdProjet;
+  var createdAsset;
 
   it('should be allowed, with valid credentials, to login and get the token', function(done){
     json('post', '/api/Users/login')
@@ -33,9 +32,9 @@ describe("User",function() {
       .send(credentials)
       .expect(200, function(err, res) {
         if (err)  return done(err);
-        assert(typeof res.body === 'object');
-        assert(res.body.id, 'must have an access token');
-        assert.equal(res.body.userId, 1); // Only have 1 authenticated user
+        assert.isObject(res.body, 'response must have a body object');
+        assert.isDefined(res.body.id, 'body must have an access token');
+        assert.equal(res.body.userId, 1);
         accessToken = res.body.id;
         done();
       });
@@ -49,34 +48,38 @@ describe("User",function() {
       })
       .expect(200, function(err, res){
         if (err) return  done(err);
-        createdProjetId = res.body.id;
+        createdProject = res.body;
+        assert.isDefined(createdProject.id);
+        assert.isDefined(createdProject.containerId);
+        assert.isNumber(createdProject.id);
+        assert.isString(createdProject.containerId);
         done();
       });
   });
 
   it("should have created a folder in storage for the new project", function(done){
-    fs.access(storagecfg.local.root + '/project' + createdProjetId + '/', fs.F_OK, function(err){
+    fs.access(storagecfg.local.root + '/' + createdProject.containerId + '/', fs.F_OK, function(err){
       if (err) return done(err);
       done();
     });
   });
 
   it("should be able to add an asset to the new project", function(done){
-    json('post', '/api/Projects/' + createdProjetId + '/Assets/upload?access_token=' + accessToken)
+    json('post', '/api/Projects/' + createdProject.id + '/Assets/upload?access_token=' + accessToken)
     .set('Content-Type', 'multipart/form-data')
     .attach('image','./test/avatar.png')
     .field('extra_info', '{"name":"booya"}')
     .expect(200, function(err, res){
       if (err) return done(err);
-      createdAssetId = res.body.id;
-      assert(res.body.url,"Download url should be provided");
-      resourceUrl = res.body.url;
+      createdAsset = res.body;
+      assert.isNumber(createdAsset.id);
+      assert.isString(createdAsset.url,"Download url should be provided");
       done();
     });
   });
 
   it("should be able to find the new asset", function(done){
-    json('get', '/api/Assets/'+ createdAssetId + '?access_token=' + accessToken)
+    json('get', '/api/Assets/'+ createdAsset.id + '?access_token=' + accessToken)
     .expect(200, function(err, res){
       if (err) return done(err);
       done();
@@ -84,7 +87,7 @@ describe("User",function() {
   });
 
   it("should be able to find the new asset without being identified", function(done){
-    json('get', '/api/Assets/'+createdAssetId)
+    json('get', '/api/Assets/' + createdAsset.id)
     .expect(200, function(err, res){
       if (err) return done(err);
       done();
@@ -92,18 +95,19 @@ describe("User",function() {
   });
 
   it("should be able to find the new asset among all assets through the project related method (with no identification)", function(done){
-    json('get', '/api/Projects/' + createdProjetId + '/assets/?access_token=' + accessToken)
+    json('get', '/api/Projects/' + createdProject.id + '/assets/?access_token=' + accessToken)
     .expect(200, function(err, res){
       if (err) return done(err);
-      var asset1 = res.body[0]
-      assert.equal(asset1.name,'avatar.png');
-      assert.equal(asset1.projectId,createdProjetId);
+      assert.isArray(res.body);
+      assert.lengthOf(res.body,1,"expecting a single asset at this point");
+      assert.strictEqual(res.body[0].name,'avatar.png');
+      assert.strictEqual(res.body[0].projectId,createdProject.id);
       done();
     })
   });
 
   it("should be able to find the new asset through the project related method", function(done){
-    json('get', '/api/Projects/' + createdProjetId + '/assets/'+ createdAssetId + '?access_token=' + accessToken)
+    json('get', '/api/Projects/' + createdProject.id + '/assets/'+ createdAsset.id + '?access_token=' + accessToken)
     .expect(200, function(err, res){
       if (err) return done(err);
       done();
@@ -111,14 +115,14 @@ describe("User",function() {
   });
 
   it("should have uploaded the new asset to the project folder", function(done){
-    fs.access(storagecfg.local.root + '/project' + createdProjetId + '/' + 'avatar.png', fs.F_OK, function(err){
+    fs.access(storagecfg.local.root + '/' + createdProject.containerId + '/' + 'avatar.png', fs.F_OK, function(err){
       if (err) return done(err);
       done();
     });
   });
 
   it("should be able to download the newly uploaded asset", function(done){
-    png('get',resourceUrl)
+    png('get',createdAsset.url)
       .expect(200, function(err, res){
         if(err) return done(err);
         done();
@@ -126,7 +130,7 @@ describe("User",function() {
   });
 
   it("should be able to delete asset from new project", function(done){
-    json('delete', '/api/Projects/' + createdProjetId + '/assets/' + createdAssetId + '?access_token=' + accessToken)
+    json('delete', '/api/Projects/' + createdProject.id + '/assets/' + createdAsset.id + '?access_token=' + accessToken)
     .expect(204, function(err, res){
       if (err) return done(err);
       done();
@@ -134,7 +138,7 @@ describe("User",function() {
   });
 
   it("should not be able to find the deleted asset through the project related method", function(done){
-    json('get', '/api/Projects/' + createdProjetId + '/assets/'+ createdAssetId + '?access_token=' + accessToken)
+    json('get', '/api/Projects/' + createdProject.id + '/assets/'+ createdAsset.id + '?access_token=' + accessToken)
     .expect(404, function(err, res){
       if (err) return done(err);
       done();
@@ -142,7 +146,7 @@ describe("User",function() {
   });
 
   it("should not be able to find the deleted asset", function(done){
-    json('get', '/api/Assets/'+ createdAssetId + '?access_token=' + accessToken)
+    json('get', '/api/Assets/'+ createdAsset.id + '?access_token=' + accessToken)
     .expect(404, function(err, res){
       if (err) return done(err);
       done();
@@ -150,7 +154,7 @@ describe("User",function() {
   });
 
   it("should be able to delete an existing project", function(done){
-    json('delete', '/api/Projects/' + createdProjetId + '?access_token=' + accessToken)
+    json('delete', '/api/Projects/' + createdProject.id + '?access_token=' + accessToken)
     .set('Content-Type', 'application/json')
     .expect(200, function(err,res){
       if (err) return done(err);
@@ -159,7 +163,7 @@ describe("User",function() {
   });
 
   it("should have removed deleted project folder from storage", function(done){
-    fs.access(storagecfg.local.root + '/project' + createdProjetId + '/', fs.F_OK, function(err){
+    fs.access(storagecfg.local.root + '/project' + createdProject.id + '/', fs.F_OK, function(err){
       if(err) return done();
       done(new Error("Folder not removed."));
     });
