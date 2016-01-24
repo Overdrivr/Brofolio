@@ -1,4 +1,4 @@
-angular.module("brofolioApp",["ngMaterial","ui.router","lodash","ngFileUpload"])
+angular.module("brofolioApp",["ngMaterial","ui.router","lodash","ngFileUpload","lbServices"])
   .config(function($stateProvider, $urlRouterProvider){
 
     $urlRouterProvider.otherwise("/");
@@ -6,7 +6,9 @@ angular.module("brofolioApp",["ngMaterial","ui.router","lodash","ngFileUpload"])
     $stateProvider
       .state('login', {
         url: "/login",
-        templateUrl: "/app/templates/login.html"
+        templateUrl: "/app/templates/login.html",
+        controller: "LoginCtrl",
+        controllerAs: "loginController"
       })
       .state('admin', {
         url: "/projects",
