@@ -3,7 +3,7 @@
     <form name="loginForm" novalidate>
       <md-input-container flex>
         <label class="ng-cloak">Nom</label>
-        <input type="text" id="user" ng-model="credentials.user"/>
+        <input type="text" id="user" ng-model="credentials.email"/>
       </md-input-container>
 
       <md-input-container flex>
@@ -11,10 +11,8 @@
         <input type="password" id="password" ng-model="credentials.password"/>
       </md-input-container>
 
-      <md-button class="md-fab md-button" aria-label="Connect" ui-sref="admin">
-
+      <md-button class="md-fab md-button" aria-label="Connect" ng-click="login(credentials)">
           <md-icon class="material-icons">vpn_key</md-icon>
-
       </md-button>
     </form>
   </div>
