@@ -2,46 +2,46 @@ module.exports = function(Project) {
 
   var CONTAINERS_URL = '/api/Containers/';
 
-  Project.upload = function (ctx,id,options,cb) {
-    var response = "YOLOLO";
-
+  Project.prototype.upload = function (ctx,options,cb) {
     if(!options) options = {};
 
-    ctx.req.params.container = 'project1';
+    // Set container name so that Container API can upload file correctly
+    ctx.req.params.container = this.containerId;
+    var projectId = this.id;
 
     Project.app.models.Container.upload(ctx.req,ctx.result,options,function (err,fileObj) {
-        if(err) return cb(err);
+      if(err) return cb(err);
 
-        var fileInfo = fileObj.files.image[0];
+      var fileInfo = fileObj.files.image[0];
+      var Asset = Project.app.models.Asset;
 
-        var Asset = Project.app.models.Asset;
-        Asset.create({
-            name: fileInfo.name,
-            type: fileInfo.type,
-            container: fileInfo.container,
-            projectId: id,
-            url: CONTAINERS_URL+fileInfo.container+'/download/'+fileInfo.name
-        },function (err,obj) {
-            if (err) return cb(err);
-            cb(null, obj);
-        });
+      Asset.create({
+          name: fileInfo.name,
+          type: fileInfo.type,
+          container: ctx.req.params.container,
+          projectId: projectId,
+          url: CONTAINERS_URL + ctx.req.params.container + '/download/' + fileInfo.name
+      },function (err,obj) {
+          if (err) return cb(err);
+          cb(null, obj);
       });
-    };
+    });
+  };
 
-    Project.remoteMethod(
-        'upload',
-        {
-            description: 'Uploads a file',
-            accepts: [
-                { arg: 'ctx', type: 'object', http: { source:'context' } },
-                { arg: 'id', type: 'number', required: true },
-                { arg: 'options', type: 'object', http:{ source: 'query'} }
-            ],
-            returns: {
-                arg: 'fileObject', type: 'object', root: true
-            },
-            http: {path: '/:id/Assets/upload', verb: 'post'}
-        }
+  Project.remoteMethod(
+      'upload',
+      {
+          isStatic: false,
+          description: 'Uploads a file',
+          accepts: [
+              { arg: 'ctx', type: 'object', http: { source:'context' } },
+              { arg: 'options', type: 'object', http:{ source: 'query'} }
+          ],
+          returns: {
+              arg: 'fileObject', type: 'object', root: true
+          },
+          http: {path: '/Assets/upload', verb: 'post'}
+      }
     );
 
   Project.on('dataSourceAttached', function(obj){
@@ -53,10 +53,7 @@ module.exports = function(Project) {
 
       create.apply(this, [data, function(err, model){
         if (err) return cb(err);
-
-        var containerName = "project" + model.id;
-
-        datasource.connector.createContainer({"name": containerName}, function(err,container){
+        datasource.connector.createContainer({"name": model.containerId}, function(err,container){
           if(err) return cb(err);
           return cb(null,model);
         });
@@ -65,11 +62,19 @@ module.exports = function(Project) {
   });
 
   // Use operation hook to clean after a delete operation
-  Project.observe("before delete", function(ctx, next){
+  // Deprecated by using guid for containers
+  // however it was impossible to get delete instance despite docs
+  // https://docs.strongloop.com/display/public/LB/Operation+hooks#Operationhooks-beforedelete
+  // TODO : investigate later
+  /*Project.observe("before delete", function(ctx, next){
     var datasource = Project.app.datasources.Local;
-    datasource.connector.destroyContainer("project" + ctx.where.id, function(err){
+    for(i in ctx)
+      console.log("-----------Context:",i)
+    datasource.connector.destroyContainer(ctx.where.containerId, function(err){
       if (err) return next(err);
       return next();
     });
+    next();
   });
+  */
 };
