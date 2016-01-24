@@ -1,5 +1,5 @@
 angular.module("brofolioApp")
-  .controller('LoginCtrl',function($scope, User){
+  .controller('LoginCtrl',function($scope, User, $state){
     $scope.credentials = {
       email: '',
       password: ''
@@ -9,11 +9,12 @@ angular.module("brofolioApp")
       $scope.loginResult = User.login(credentials,
       function() {
         // success
-        console.log("Logged in")
+        $state.go('admin')
       },
       function(res) {
         // failure
-        console.log("Failed to log :",res)
+        // Display error banner
+        console.log("Failed to login :",res)
       });
     }
   });
