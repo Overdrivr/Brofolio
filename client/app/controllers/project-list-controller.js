@@ -1,10 +1,32 @@
 angular.module("brofolioApp")
-  .controller("projectListController",
-  ["projects","$state","$log","$scope","$mdMedia","$mdDialog",
-  function(projects,$state,$log,$scope,$mdMedia,$mdDialog){
+  .controller("projectListController",[
+    "$state",
+    "$log",
+    "$scope",
+    "$mdMedia",
+    "$mdDialog",
+    "User",
+    "Project",
+  function($state,$log,$scope,$mdMedia,$mdDialog,User,Project){
 
+  // methods
+
+  // bound data
   var self = this;
-  self.projectList = projects.list;
+  self.projectList = [];
+
+  // init
+  getProjects();
+
+  function getProjects() {
+    Project.find({},
+    function(list){
+      self.projectList = list;
+    },
+    function(err){
+      console.log("Cannot get project list");
+    });
+  }
 
   $scope.showCreateProjectDialog = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
@@ -19,7 +41,17 @@ angular.module("brofolioApp")
     })
     // Actions to perform once dialog is closed
     .then(function(title) {
-      projects.create(title);
+      Project.create({
+        title : title
+        },
+        function(value, responseHeaders) {
+          // success
+          getProjects();
+        },
+        function(httpResponse) {
+          // failure
+          console.log("project creation failed : ",httpResponse);
+        });
     }, function() {
       // Dialog cancelled, do nothing
     });
@@ -40,7 +72,13 @@ angular.module("brofolioApp")
           .ok('Confirm')
           .cancel('Cancel');
     $mdDialog.show(confirm).then(function() {
-      projects.delete(data.id);
+      Project.deleteById({
+        id: data.id
+      },function(value, responseHeaders) {
+        getProjects();
+      },function(httpResponse) {
+        console.log("project deletion failed : ",httpResponse);
+      });
     }, function() {
       // Cancelled, do noting
     });
