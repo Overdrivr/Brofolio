@@ -89,6 +89,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "__get__assets"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "find"
     }
   ],
   "methods": {}
