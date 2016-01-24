@@ -25,4 +25,12 @@ describe("Unauthenticated user",function() {
         done();
       });
   });
+
+  it('should be allowed to find the list of projects', function(done){
+    json('get', '/api/Projects')
+      .expect(200, function(err, res) {
+        if (err)  return done(err);
+        done();
+      });
+  });
 });
