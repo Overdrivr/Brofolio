@@ -7,20 +7,23 @@ module.exports = function(Project) {
 
     // Set container name so that Container API can upload file correctly
     ctx.req.params.container = this.containerId;
+    
     var projectId = this.id;
+    var models = Project.app.models;
 
-    Project.app.models.Container.upload(ctx.req,ctx.result,options,function (err,fileObj) {
+    models.Container.upload(ctx.req,ctx.result,options,function (err,fileObj) {
       if(err) return cb(err);
 
       var fileInfo = fileObj.files.image[0];
-      var Asset = Project.app.models.Asset;
+      var Asset = models.Asset;
+      var container = ctx.req.params.container;
 
       Asset.create({
           name: fileInfo.name,
           type: fileInfo.type,
-          container: ctx.req.params.container,
+          container: container,
           projectId: projectId,
-          url: CONTAINERS_URL + ctx.req.params.container + '/download/' + fileInfo.name
+          url: CONTAINERS_URL + container + '/download/' + fileInfo.name
       },function (err,obj) {
           if (err) return cb(err);
           cb(null, obj);
@@ -53,9 +56,12 @@ module.exports = function(Project) {
 
       create.apply(this, [data, function(err, model){
         if (err) return cb(err);
-        datasource.connector.createContainer({"name": model.containerId}, function(err,container){
-          if(err) return cb(err);
-          return cb(null,model);
+        datasource.connector.createContainer(
+          {
+            'name': model.containerId
+          }, function(err,container){
+            if(err) return cb(err);
+            return cb(null,model);
         });
       }]);
     };
