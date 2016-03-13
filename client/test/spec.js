@@ -42,10 +42,12 @@ describe('Brofolio', function() {
 
   it('should upload an asset to the project',
   function() {
-    var fileToUpload = './test/avatar.png'
+    var fileToUpload = './avatar.png'
     var absolutePath = path.resolve(__dirname, fileToUpload);
-    $('input[type="file"]').sendKeys(absolutePath);
+    console.log(absolutePath)
     $('#uploadButton').click();
+    $('input[type="file"]').sendKeys(absolutePath);
+    $('#saveButton').click();
   });
 
   it('should go back to the main page and see the newly created asset',
