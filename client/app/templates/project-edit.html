@@ -21,7 +21,7 @@
           <!-- Assets title and + FAB -->
           <div layout="row" layout-align="space-between start">
             <h3>Assets</h3>
-            <md-button class="md-fab" aria-label="Add an asset" ng-model="file" name="file" ngf-pattern="'image/*'"
+            <md-button id="uploadButton" class="md-fab" aria-label="Add an asset" ng-model="file" name="file" ngf-pattern="'image/*'"
               ngf-accept="'image/*'" ngf-max-size="20MB" ngf-select="projects.uploadAsset(file)">
               <md-icon class="material-icon">add</md-icon>
             </md-button>
