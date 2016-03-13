@@ -1,10 +1,11 @@
 angular.module("brofolioApp")
 .controller("projectEditController",[
-  "projects",
+  "Project",
   "$state",
   "$stateParams",
   "$mdDialog",
-  function(projects,  $state,  $stateParams,  $mdDialog){
+  "Upload",
+  function(Project,  $state,  $stateParams,  $mdDialog, $upload){
 
   var vm = this;
 
@@ -14,7 +15,8 @@ angular.module("brofolioApp")
   vm.save = save;
 
   //-- Bound objects
-  vm.projectList = projects.list;
+  vm.projectList = [];
+  vm.containerId = undefined;
 
   //-- Initialization
   init();
@@ -23,15 +25,19 @@ angular.module("brofolioApp")
 
   function init(){
     // Find project in list by id
-    var existingData = projects.get($stateParams.id);
-
-    if(existingData){
-      vm.data = existingData;
-      vm.id = $stateParams.id
-    }
-    else {
+    var existingData = Project.findById({
+      id: $stateParams.id
+    },
+    function(value,responseHeaders){
+      console.log(value);
+      vm.projectList = value;
+      //vm.data = existingData;
+      vm.containerId = value.containerId
+    },
+    function(httpResponse){
+      console.error(httpResponse);
       $state.go("admin");
-    }
+    });
   };
 
   function removeAsset(asset){
@@ -57,20 +63,21 @@ angular.module("brofolioApp")
     $state.go("admin");
   };
 
-  // TODO : Move to service
   function uploadAsset(file) {
-    if(!file){
-      return;
-    }
+    if(!file) return console.error("File is undefined");
+    if(!vm.containerId) return console.error("containerId is undefined");
 
-    projects.addAsset(vm.id,file,function(err){
-      // On operation complete
-      if(err) return console.log(err);
-      vm.data = projects.get(vm.id);
-      console.log("Uploaded successfully.");
-    }, function(progress){
-      // During operation
-      console.log("Progress ",progress," %");
+    $upload.upload({
+        url: 'api/Containers/' + vm.containerId + '/upload',
+        data: {file: file}
+    }).then(function (resp) {
+        console.log("Uploaded file");
+    }, function (resp) {
+        console.error("Upload failed with status " + resp.status);
+    }, function (evt) {
+        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+        console.log("Progress : " + progressPercentage)
     });
   };
+
 }])
