@@ -4,9 +4,9 @@
   "license": "MIT",
   "main": "server/server.js",
   "scripts": {
-    "pretest": "jshint .",
+    "pretest": "",
     "start": "node .",
-    "test": "mocha ."
+    "test": "mocha test"
   },
   "dependencies": {
     "compression": "^1.0.3",
