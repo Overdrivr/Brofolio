@@ -827,7 +827,7 @@ module.factory(
 
         /**
          * @ngdoc method
-         * @name lbServices.Project#upload
+         * @name lbServices.Project#prototype$upload
          * @methodOf lbServices.Project
          *
          * @description
@@ -841,8 +841,6 @@ module.factory(
          * @param {Object} postData Request data.
          *
          *  - `ctx` – `{object=}` - 
-         *
-         *  - `id` – `{number}` - 
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -859,7 +857,7 @@ module.factory(
          * This usually means the response is a `Project` object.)
          * </em>
          */
-        "upload": {
+        "prototype$upload": {
           url: urlBase + "/Projects/:id/Assets/upload",
           method: "POST"
         },
