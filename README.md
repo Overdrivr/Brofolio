@@ -24,5 +24,5 @@ protractor conf.js
 ### Server
 Requirements : mocha
 ```
-mocha test
+npm test
 ```
