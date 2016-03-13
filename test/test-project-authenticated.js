@@ -6,7 +6,9 @@ var fs = require('fs');
 var loopback = require('loopback');
 var storagecfg = require('../server/datasources.json');
 var fs = require('fs');
-var setup = require('./setup-test');
+
+// test order
+require("./test-unauthenticated.js");
 
 function json(verb, url) {
     return request(app)[verb](url)
@@ -167,5 +169,21 @@ describe("User",function() {
       if(err) return done();
       done(new Error("Folder not removed."));
     });
+  });
+
+  after(function() {
+    json('post', '/api/Projects/?access_token=' + accessToken)
+      .set('Content-Type', 'application/json')
+      .send({
+        title:"testProject"
+      })
+      .expect(200, function(err, res){
+        if (err) return err;
+        createdProject = res.body;
+        assert.isDefined(createdProject.id);
+        assert.isDefined(createdProject.containerId);
+        assert.isNumber(createdProject.id);
+        assert.isString(createdProject.containerId);
+      });
   });
 });
