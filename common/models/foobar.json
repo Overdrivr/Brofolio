@@ -1,0 +1,30 @@
+{
+  "name": "Foobar",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "foo": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "assets": {
+      "type": "hasMany",
+      "model": "Asset",
+      "foreignKey": ""
+    },
+    "projects": {
+      "type": "hasMany",
+      "model": "Project",
+      "foreignKey": "",
+      "through": "Asset"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

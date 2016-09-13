@@ -47,5 +47,9 @@
   "Container": {
     "dataSource": "local",
     "public": true
+  },
+  "Foobar": {
+    "dataSource": "db",
+    "public": true
   }
 }

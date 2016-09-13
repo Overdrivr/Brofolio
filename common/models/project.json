@@ -11,8 +11,8 @@
       "required": true
     },
     "containerId": {
-      "defaultFn" : "guid",
-      "type": "string"
+      "type": "string",
+      "defaultFn": "guid"
     },
     "description": {
       "type": "string",
