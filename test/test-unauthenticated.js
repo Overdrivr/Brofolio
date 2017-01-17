@@ -7,17 +7,18 @@ function json(verb, url) {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/);
-  };
+  }
 
-describe("Unauthenticated user",function() {
+describe('Unauthenticated user',function() {
   var accessToken;
 
   var wrongCredentials = {
     email:'wrong@wrong.com',
     password:'wrong'
   };
-
-  it('should NOT be allowed, with non-valid credentials, to login and get the token', function(done){
+  /*jshint multistr: true */
+  it('should NOT be allowed, with non-valid credentials, \
+      to login and get the token', function(done){
     json('post', '/api/Users/login')
       .send(wrongCredentials)
       .expect(401, function(err, res) {
